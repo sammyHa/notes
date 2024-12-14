@@ -1,0 +1,113 @@
+site_name: Pentesting Notes
+nav:
+  - index.md
+  - CPTS:
+    - Getting Started:
+        - CPTS/Getting Started/Web Enumeration Overview.md
+        - CPTS/Getting Started/Types of Shells.md
+        - CPTS/Getting Started/Folder Structure.md
+        - CPTS/Getting Started/Public Exploits.md
+        - CPTS/Getting Started/Get OS Information.md
+        - CPTS/Getting Started/Way Forward.md
+        - CPTS/Getting Started/Starting Out.md
+        - CPTS/Getting Started/Common Pitfalls and Troubleshooting in VPN and SSH Connections.md
+        - CPTS/Getting Started/Transferring Files.md
+
+    - Tools:
+        - CPTS/Tools/onesixtyone.md
+        - CPTS/Tools/Braa.md
+        - CPTS/Tools/WinRM.md
+        - CPTS/Tools/Shodan.md
+        - CPTS/Tools/xfreerdp.md
+        - CPTS/Tools/Nessus.md
+        - CPTS/Tools/Metasploit.md
+        - CPTS/Tools/Nikto.md
+        - CPTS/Tools/Rsync.md
+        - CPTS/Tools/snmpwalk.md
+        - CPTS/Tools/Windows_Management_Instrumentation.md
+        - CPTS/Tools/vnStat.md
+        - CPTS/Tools/DNSenum.md
+    - Nmap:
+        - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS IPS Evasion.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Nmap.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Service Enumeration.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Nmap Scripting Engine NSE.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Cheatsheet.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Host and Port Scanning.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS and IPS Evasion Labs.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Saving the Result.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Performance.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Nmap Host Discovery.md
+        - CPTS/Network Enumeration with Nmap/Nmap/Attacking Network Services.md
+    - Info Gathering Web Edition:
+        - CPTS/Info Gathering Web Edition/Penetration Testing Process.md
+    - Footprinting:
+        - SNMP: CPTS/Footprinting/SNMP.md
+        - CPTS/Footprinting/NFS Network File System.md
+        - CPTS/Footprinting/SMTP Simple Mail Transfer Protocol.md
+        - CPTS/Footprinting/DNS Domain Name System.md
+        - CPTS/Footprinting/Domain Information.md
+        - CPTS/Footprinting/Cloud Resources.md
+        - CPTS/Footprinting/FTP.md
+        - CPTS/Footprinting/MYSQL.md
+        - CPTS/Footprinting/Windows Remote Management Protocols.md
+        - CPTS/Footprinting/Enumeration Methodology.md
+        - CPTS/Footprinting/MSSQL.md
+        - CPTS/Footprinting/Enumeration Principles.md
+        - CPTS/Footprinting/IMAP POP3.md
+        - CPTS/Footprinting/Linux Remote Management Protocols.md
+        - CPTS/Footprinting/Oracle - TNS Transparent Network Substate.md
+        - CPTS/Footprinting/SMB.md
+        - CPTS/Footprinting/IPMI Intelligent Platform Management Interface.md
+    - Skill Assessment:
+        - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Hard.md
+        - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Medium.md
+        - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Easy.md
+    - Vulnerability:
+        - CPTS/Vulnerability/Common Vulnerabilities and Exposures (CVE).md
+        - CPTS/Vulnerability/Common Vulnerability Scoring System (CVSS).md
+        - CPTS/Vulnerability/Assessment Standards.md
+        - CPTS/Vulnerability/Getting Started with Nessus.md
+        - CPTS/Vulnerability/Vulnerability Assessment.md
+extra_css:
+  - styles/custom.css
+  
+theme:
+  name: material
+  highlightjs: true
+  features:
+    - content.code.copy
+    - content.code.annotation
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+      primary: "#00be98"
+      accent: "#007e65"
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: switch to light mdoe
+      primary: "#00be98"
+      accent: "#007e65"
+
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
