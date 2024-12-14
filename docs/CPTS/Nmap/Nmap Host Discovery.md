@@ -1,33 +1,3 @@
----
-title: Nmap Host Discovery
-date: 2024-10-23
-tags:
-  - "#oscp"
-  - "#technique"
-  - "#exploitation"
-techniques:
-  - ""
-  - ""
-tools:
-  - ""
-  - ""
-machines: ""
-difficulty:
-  - ""
-status:
-  - in-progress
-type: ""
-os: ""
-categories:
-  - ""
-exam-priority:
-  - medium
-time-invested: ""
-notes: |
-  Key points and takeaways from the exercise.
----
-
-
 ### References
 - [Example Tutorial](https://example.com/tutorial)
 - [OSCP Exploit Documentation](https://documentation.oscp.org/exploitations)
@@ -43,9 +13,8 @@ Host discovery is crucial in identifying systems that are online and can be test
 **Command:**
 
 ```bash
-sudo nmap 10.129.2.0/24 -sn -oA tnet | grep for | cut -d" " -f5
-
-```
+    sudo nmap 10.129.2.0/24 -sn -oA tnet | grep for | cut -d" " -f5
+    ```
 
 - **Description**: Scans an entire network range (e.g., `/24`) for live hosts without performing port scans.
 - **Options:**

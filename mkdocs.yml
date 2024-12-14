@@ -28,17 +28,16 @@ nav:
         - CPTS/Tools/vnStat.md
         - CPTS/Tools/DNSenum.md
     - Nmap:
-        - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS IPS Evasion.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Nmap.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Service Enumeration.md
-        # - CPTS/Network Enumeration with Nmap/Nmap/Nmap Scripting Engine NSE.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Cheatsheet.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Host and Port Scanning.md
-        # - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS and IPS Evasion Labs.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Saving the Result.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Performance.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Nmap Host Discovery.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Attacking Network Services.md
+        - CPTS/Nmap/Firewall and IDS IPS Evasion.md
+        - CPTS/Nmap/Nmap.md
+        - CPTS/Nmap/Service Enumeration.md
+        - NSE:  CPTS/Nmap/nse.md
+        - CPTS/Nmap/Cheatsheet.md
+        - CPTS/Nmap/Host and Port Scanning.md
+        - CPTS/Nmap/Saving the Result.md
+        - CPTS/Nmap/Performance.md
+        - CPTS/Nmap/Nmap Host Discovery.md
+        - CPTS/Nmap/Attacking Network Services.md
     - Info Gathering Web Edition:
         - CPTS/Info Gathering Web Edition/Penetration Testing Process.md
     - Footprinting:
@@ -61,7 +60,7 @@ nav:
         - CPTS/Footprinting/IPMI Intelligent Platform Management Interface.md
     - Skill Assessment:
         - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Hard.md
-        - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Medium.md
+        - CPTS/Footprinting/Skill Assessment/Footprinting_Lab_Meduim.md
         - CPTS/Footprinting/Skill Assessment/Footprinting Lab - Easy.md
     - Vulnerability:
         - CPTS/Vulnerability/Common Vulnerabilities and Exposures (CVE).md
@@ -111,3 +110,7 @@ markdown_extensions:
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
+
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences

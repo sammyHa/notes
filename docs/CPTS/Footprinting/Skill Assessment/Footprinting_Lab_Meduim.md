@@ -1,5 +1,5 @@
 
- Enumerate the server carefully and find the username "`HTB`" and its password. Then, submit this user's password as the answer.
+Enumerate the server carefully and find the username "`HTB`" and its password. Then, submit this user's password as the answer.
 
 ### Nmap
 ```bash

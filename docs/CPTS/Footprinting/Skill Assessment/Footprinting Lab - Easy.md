@@ -10,7 +10,7 @@ The administrators have stored a `flag.txt` file on this server to track our p
 
 ### Nmap result
 
-![[Pasted image 20241115094314.png]]
+![ ](Assets/Pasted image 20241115094314.png)
 
 Port `2121`
 ![[Pasted image 20241115094443.png]]
