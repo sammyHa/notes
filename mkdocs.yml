@@ -31,7 +31,7 @@ nav:
         - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Network Enumeration with Nmap/Nmap/Nmap.md
         - CPTS/Network Enumeration with Nmap/Nmap/Service Enumeration.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Nmap Scripting Engine NSE.md
+        # - CPTS/Network Enumeration with Nmap/Nmap/Nmap Scripting Engine NSE.md
         - CPTS/Network Enumeration with Nmap/Nmap/Cheatsheet.md
         - CPTS/Network Enumeration with Nmap/Nmap/Host and Port Scanning.md
         - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS and IPS Evasion Labs.md
@@ -42,7 +42,7 @@ nav:
     - Info Gathering Web Edition:
         - CPTS/Info Gathering Web Edition/Penetration Testing Process.md
     - Footprinting:
-        - SNMP: CPTS/Footprinting/SNMP.md
+        - CPTS/Footprinting/SNMP.md
         - CPTS/Footprinting/NFS Network File System.md
         - CPTS/Footprinting/SMTP Simple Mail Transfer Protocol.md
         - CPTS/Footprinting/DNS Domain Name System.md
