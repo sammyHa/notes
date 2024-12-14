@@ -34,7 +34,7 @@ nav:
         # - CPTS/Network Enumeration with Nmap/Nmap/Nmap Scripting Engine NSE.md
         - CPTS/Network Enumeration with Nmap/Nmap/Cheatsheet.md
         - CPTS/Network Enumeration with Nmap/Nmap/Host and Port Scanning.md
-        - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS and IPS Evasion Labs.md
+        # - CPTS/Network Enumeration with Nmap/Nmap/Firewall and IDS and IPS Evasion Labs.md
         - CPTS/Network Enumeration with Nmap/Nmap/Saving the Result.md
         - CPTS/Network Enumeration with Nmap/Nmap/Performance.md
         - CPTS/Network Enumeration with Nmap/Nmap/Nmap Host Discovery.md
