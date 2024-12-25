@@ -30,6 +30,7 @@ nav:
         - CPTS/Tools/DNSenum.md
         - CPTS/Tools/OpenVAS.md
         - CPTS/Tools/File Transfer tools.md
+        - CPTS/Tools/JtR.md
     - Nmap:
         - CPTS/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Nmap/Nmap.md

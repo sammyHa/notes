@@ -304,3 +304,5 @@ To transfer files in this scenario we can set a username and password using out 
     C:\htb> copy n:\nc.exe
     #        1 fiel(s) copied.
 ```
+
+## FTP Download
