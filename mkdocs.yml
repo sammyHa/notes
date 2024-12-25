@@ -12,7 +12,8 @@ nav:
         - CPTS/Getting Started/Starting Out.md
         - CPTS/Getting Started/Common Pitfalls and Troubleshooting in VPN and SSH Connections.md
         - CPTS/Getting Started/Transferring Files.md
-
+    - File Transfers:
+        - CPTS/File Transfers/Win File Transfer Methods.md
     - Tools:
         - CPTS/Tools/onesixtyone.md
         - CPTS/Tools/Braa.md
@@ -27,6 +28,8 @@ nav:
         - CPTS/Tools/Windows_Management_Instrumentation.md
         - CPTS/Tools/vnStat.md
         - CPTS/Tools/DNSenum.md
+        - CPTS/Tools/OpenVAS.md
+        - CPTS/Tools/File Transfer tools.md
     - Nmap:
         - CPTS/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Nmap/Nmap.md
@@ -68,6 +71,13 @@ nav:
         - CPTS/Vulnerability/Assessment Standards.md
         - CPTS/Vulnerability/Getting Started with Nessus.md
         - CPTS/Vulnerability/Vulnerability Assessment.md
+  - HTB:
+      - Easy:
+          - HTB/easy/box1.md
+      - Meduim:
+          - HTB/meduim/active.md
+      - Hard:
+          - HTB/hard/hard.md
 extra_css:
   - styles/custom.css
   
@@ -105,7 +115,11 @@ markdown_extensions:
       generic: true
   - footnotes
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.mark
   - attr_list
   - pymdownx.emoji:
@@ -113,4 +127,3 @@ markdown_extensions:
 
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
