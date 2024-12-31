@@ -14,6 +14,9 @@ nav:
         - CPTS/Getting Started/Transferring Files.md
     - File Transfers:
         - CPTS/File Transfers/Win File Transfer Methods.md
+        - CPTS/File Transfers/Linux File Transfer Methods.md
+        - CPTS/File Transfers/file_transfer_operations.md
+        - CPTS/File Transfers/transfer_files_wtih_code.md
     - Tools:
         - CPTS/Tools/onesixtyone.md
         - CPTS/Tools/Braa.md
@@ -31,6 +34,7 @@ nav:
         - CPTS/Tools/OpenVAS.md
         - CPTS/Tools/File Transfer tools.md
         - CPTS/Tools/JtR.md
+        - CPTS/Tools/Certutil.md
     - Nmap:
         - CPTS/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Nmap/Nmap.md

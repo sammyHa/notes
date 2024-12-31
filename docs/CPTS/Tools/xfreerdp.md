@@ -2,6 +2,11 @@
 
 ---
 
+## Installation
+```bash
+    sudo apt install freerdp2-x11
+```
+
 ### **Key Features of `xfreerdp`**
 
 1. **RDP Protocol Support**: Fully supports the RDP protocol for remote desktop connections.
