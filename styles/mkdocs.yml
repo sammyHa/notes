@@ -1,0 +1,34 @@
+site_name: My Docs
+nav:
+  - Home: index.md
+  - Enumeration: enumeration.md
+  - Exploitation: exploitation.md
+  - CPTS:
+    - Footprinting:
+      - Cloud Resources: CPTS/Footprinting/Cloud Resources.md
+    
+    - Tools:
+      - Braa: CPTS/Tools/Braa
+      - DNSenum: CPTS/Tools/DNSenum.md
+      - Nikto: CPTS/Tools/Nikto.md
+      - Metasploit: CPTS/Tools/Metasploit.md
+      - Onesixtyone: CPTS/Tools/onesixtyone.md
+      - Rsync: CPTS/Tools/Rsync.md
+      - Shodan: CPTS/Tools/Shodan.md
+      - Snmpwalk: CPTS/Tools/snmpwalk.md
+      - vnStat: CPTS/Tools/vnStat.md
+      - WinRM: CPTS/Tools/WinRM.md
+      - xfreerdp: CPTS/Tools/xfreerdp.md
+      - WMI: CPTS/Tools/Windows_Management_Instrumentation.md 
+extra_css:
+  - styles/custom.css
+theme:
+  name: material
+  highlightjs: true
+  features:
+    - content.code.copy
+
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+  - pymdownx.highlight
