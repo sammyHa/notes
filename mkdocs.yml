@@ -17,6 +17,7 @@ nav:
         - CPTS/File Transfers/Linux File Transfer Methods.md
         - CPTS/File Transfers/file_transfer_operations.md
         - CPTS/File Transfers/transfer_files_wtih_code.md
+        - CPTS/File Transfers/miscellaneous_file_transfer.md
     - Tools:
         - CPTS/Tools/onesixtyone.md
         - CPTS/Tools/Braa.md
