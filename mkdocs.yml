@@ -18,6 +18,8 @@ nav:
         - CPTS/File Transfers/file_transfer_operations.md
         - CPTS/File Transfers/transfer_files_wtih_code.md
         - CPTS/File Transfers/miscellaneous_file_transfer.md
+        - CPTS/File Transfers/protected_file_transfer.md
+        - CPTS/File Transfers/catching_files_over_HTTPS.md
     - Tools:
         - CPTS/Tools/onesixtyone.md
         - CPTS/Tools/Braa.md
