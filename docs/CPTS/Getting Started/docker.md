@@ -1,9 +1,9 @@
 Docker is an incredibly versatile tool for setting up lab environments, especially in scenarios where you need lightweight, isolated, and reproducible containers. Here are some key use cases for Docker in a general lab environment:
 
-1. Web Application Testing
-	•	Deploy Vulnerable Applications:
-	•	Quickly spin up intentionally vulnerable applications like OWASP Juice Shop, DVWA, or Mutillidae to practice web application penetration testing.
-	•	Example:
+1. ## Web Application Testing
+- Deploy Vulnerable Applications:
+- Quickly spin up intentionally vulnerable applications like OWASP Juice Shop, DVWA, or Mutillidae to practice web application penetration testing.
+- Example:
 
 docker run -d -p 3000:3000 bkimminich/juice-shop
 
