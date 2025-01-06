@@ -12,6 +12,7 @@ nav:
         - CPTS/Getting Started/Starting Out.md
         - CPTS/Getting Started/Common Pitfalls and Troubleshooting in VPN and SSH Connections.md
         - CPTS/Getting Started/Transferring Files.md
+        - CPTS/Getting Started/docker.md
     - File Transfers:
         - CPTS/File Transfers/Win File Transfer Methods.md
         - CPTS/File Transfers/Linux File Transfer Methods.md
