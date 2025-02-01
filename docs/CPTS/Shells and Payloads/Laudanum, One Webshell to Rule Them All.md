@@ -13,12 +13,12 @@ sammyha@htb[/htb]$ cp /usr/share/laudanum/aspx/shell.aspx /home/tester/demo.aspx
 ```
 Add your IP address to the `allowedIps` variable on line 59. Make any other changes you wish. It can be prudent to remove the ASCII art and comments from the file. These items in a payload are often signatured on and can alert the defenders/AV to what you are doing.
 
-![image](/Assets/attachments/modify-shell.png)
+![image](../../Assets/attachments/modify-shell.png)
 
 We are taking advantage of the upload function at the bottom of the status page(Green Arrow) for this to work. Select your shell file and hit upload. If successful, it should print out the path to where the file was saved (Yellow Arrow). Use the upload function. Success prints out where the file went, navigate to it.
-![image](/Assets/attachments/laud-upload.png)
+![image](../../Assets/attachments/laud-upload.png)
 Once the upload is successful, you will need to navigate to your web shell to utilize its functions. The image below shows us how to do it. As seen from the last image, our shell was uploaded to the \\files\ directory, and the name was kept the same. This won't always be the case. You may run into some implementations that randomize filenames on upload that do not have a public files directory or any number of other potential safeguards. For now, we are lucky that's not the case. With this particular web application, our file went to status.inlanefreight.local\\files\demo.aspx and will require us to browse for the upload by using that \ in the path instead of the / like normal. Once you do this, your browser will clean it up in your URL window to appear as status.inlanefreight.local//files/demo.aspx.
-![image](/Assets/attachments/laud-nav.png)
+![image](../../Assets/attachments/laud-nav.png)
 
 We can now utilize the Laudanum shell we uploaded to issue commands to the host. We can see in the example that the systeminfo command was run.
-![image](/Assets/attachments/laud-success.png)
+![image](../../Assets/attachments/laud-success.png)

@@ -71,7 +71,7 @@ Below is a high-level graphical depiction of the attack:
 Attackers continue to innovate, but knowledge of their methods ensures defenders can remain vigilant and respond effectively.
 
 
-![tha](/Assets/attachments/fig1a-astaroth-attack-chain.png)
+![tha](../../Assets/attachments/fig1a-astaroth-attack-chain.png)
 
 ## Download Operations
 We have access to the machine MS02 and we need to download a file from Pwnbox machine.
@@ -164,7 +164,7 @@ Finally, we can confirm if the file was transferred successfully using the Get-F
 ```bash
 Get-FileHash C:\Users\Public\id_rsa -Algorithm md5
 ```
-![alt text](/Assets/attachments/get-filehash.png)
+![alt text](../../Assets/attachments/get-filehash.png)
 
 `Note: While this method is convenient, it's not always possible to use. Windows Command Line utility (cmd.exe) has a maximum string length of 8,191 characters. Also, a web shell may error if you attempt to send extremely large strings.`
 

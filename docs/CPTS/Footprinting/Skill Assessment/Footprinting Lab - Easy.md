@@ -26,8 +26,8 @@ cd .ssh
 get id_rsa
 quit
 ```
-![Alt text](/Assets/attachments/Pasted image 20241115102949.png)
-![Alt text](/Assets/attachments/Pasted image 20241115103133.png)
+![Alt text](../../Assets/attachments/Pasted image 20241115102949.png)
+![Alt text](../../Assets/attachments/Pasted image 20241115103133.png)
 After downloading the `id_rsa` we can use it to ssh to it.
 ```bash
 chmod 600 id_rsa
@@ -36,5 +36,5 @@ find / -name flat.txt 2>/dev/null
 cat /home/flag/flag.txt
 #HTB{7nrzise7hednrxihskjed7nzrgkweunj47zngrhdbkjhgdfbjkc7hgj}
 ```
-![](/Assets/attachments/Pasted image 20241115103357.png)
+![](../../Assets/attachments/Pasted image 20241115103357.png)
 We can submit the flag as the answer and Done!

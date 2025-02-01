@@ -6,7 +6,7 @@ With a bind shell, the target system has a listener started and awaits a connect
 
 ### Bind Example
 
-![bind shell](/Assets/attachments/bindshell.png)
+![bind shell](../../Assets/attachments/bindshell.png)
 
 As seen in the image, we would connect directly with the IP address and port listening on the target. There can be many challenges associated with getting a shell this way. Here are some to consider:
 

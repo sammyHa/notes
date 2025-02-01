@@ -263,7 +263,7 @@ with TLSConnection(hostname='localhost') as connection:
 ```bash
 python3 -m openvasreporting -i report-downloaded-from-openvas.xml -f xlsx
 ```
-![openvas](/Assets/attachments/openvas_xls_format.png)
+![openvas](../../Assets/attachments/openvas_xls_format.png)
 ---
 
 ## **8. Conclusion**

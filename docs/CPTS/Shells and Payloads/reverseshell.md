@@ -2,7 +2,7 @@
 
 With a reverse shell, the attack box will have a listener running, and the target will need to initiate the connection.
 
-![reverse shell](/Assets/attachments/reverseshell.png)
+![reverse shell](../../Assets/attachments/reverseshell.png)
 [Reverse shell cheat shee](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
 #### **Why Reverse Shells are Effective**
