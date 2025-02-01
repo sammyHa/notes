@@ -1,27 +1,3 @@
----
-title: Nessus
-date: 2024-10-30
-tags: 
-techniques: 
-tools:
-  - nessus
-  - vulnerability
-  - scanning
-machines: 
-difficulty: 
-status: 
-type: 
-os: 
-categories: 
-exam-priority: 
-time-invested:
----
->[!tip]- Tips
->Write tips here
-
-### References
-- Layered Enumeration Framework Guide
-- Comprehensive OSCP Enumeration Strategies
 
 ```bash
 sudo systemctl start nessusd

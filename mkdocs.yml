@@ -23,7 +23,20 @@ nav:
         - CPTS/File Transfers/detection.md
         - CPTS/File Transfers/living_off_the_land.md
         - CPTS/File Transfers/evasion_detection.md
-
+    - Shells and Payloads:
+        - CPTS/Shells and Payloads/understanding_shells_and_payloads.md
+        - CPTS/Shells and Payloads/CAT5.md
+        - CPTS/Shells and Payloads/anatomy_of_a_shell.md
+        - CPTS/Shells and Payloads/bind_shell.md
+        - CPTS/Shells and Payloads/reverseshell.md
+        - CPTS/Shells and Payloads/Payloads.md
+        - CPTS/Shells and Payloads/Infiltrating-Unix-Linux.md
+        - CPTS/Shells and Payloads/SpawningInteractiveShells.md
+        - CPTS/Shells and Payloads/Laudanum, One Webshell to Rule Them All.md
+        - CPTS/Shells and Payloads/skillAssessment.md
+        - CPTS/Shells and Payloads/DetectionAndPrevention.md
+    - Metasploit:
+        - CPTS/Metasploit/Preface.md
     - Tools:
         - CPTS/Tools/onesixtyone.md
         - CPTS/Tools/Braa.md
@@ -85,7 +98,8 @@ nav:
         - CPTS/Vulnerability/Vulnerability Assessment.md
   - HTB:
       - Easy:
-          - HTB/easy/box1.md
+          - HTB/easy/Blunder.md
+          - HTB/easy/broadlight.md
       - Meduim:
           - HTB/meduim/active.md
       - Hard:
