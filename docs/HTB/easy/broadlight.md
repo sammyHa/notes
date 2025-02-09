@@ -8,7 +8,7 @@ sudo nmap -sVC -A -O 10.129.231.37
 
 ### Website
 After visiting adding the `board.htb` to the `/etc/hosts` file we can visit the site.
-![website ](../../Assets/walktrhough-assets/board-htb-website.png)
+![website](../../Assets/walktrhough-assets/board-htb-website.png)
 
 After visiting the the about and contact us pages we can see that the site is using `php`.
 
@@ -17,7 +17,7 @@ Let's use the `feroxbuster` and use the -X `php` since we know the site is using
 ```bash
 feroxbuster -u http://board.htb
 ```
-![feroxbuster ](../../Assets/walktrhough-assets/dir-buster.png)
+![feroxbuster](../../Assets/walktrhough-assets/dir-buster.png)
 There is nothing new we already know most of these so let's move to the next step of enumeration.
 
 ### Subdomina brutfocing
@@ -26,10 +26,10 @@ We can use the `ffuf` for this to brutfoce the subdoamins and add them to the `/
 ffuf -u http://board.htb -H "Host: FUZZ.board.htb" -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -mc all -ac
 ```
 We can see that the crm sbudomain is giving us a `200` status code.
-![fuff scan ](/Assets/walktrhough-assets/ffuff-subdoamin.png)
+![fuff scan](/Assets/walktrhough-assets/ffuff-subdoamin.png)
 
 We can addd it to the `/etc/hosts` file.
-![etc hosts ](../../Assets/walktrhough-assets/etc-hosts.png)
+![etc hosts](../../Assets/walktrhough-assets/etc-hosts.png)
 
 ### crm.board.htb
 let's visit the subdomain.

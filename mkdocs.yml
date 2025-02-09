@@ -55,6 +55,7 @@ nav:
         - CPTS/Tools/File Transfer tools.md
         - CPTS/Tools/JtR.md
         - CPTS/Tools/Certutil.md
+        - CPTS/Tools/ssti.md
     - Nmap:
         - CPTS/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Nmap/Nmap.md
@@ -100,8 +101,12 @@ nav:
       - Easy:
           - HTB/easy/Blunder.md
           - HTB/easy/broadlight.md
+          - HTB/easy/busqueda.md
+          - HTB/easy/sense.md
       - Meduim:
           - HTB/meduim/active.md
+          - HTB/meduim/jeeves.md
+
       - Hard:
           - HTB/hard/hard.md
 extra_css:
