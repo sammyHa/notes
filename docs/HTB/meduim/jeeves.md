@@ -5,7 +5,7 @@
 nmap -sC -sV -T4 -oN scan.txt $ip
 ```
 ## Nmap Result
-![nmap](../../Assets/walktrhough-assets/jeeves/image.png)
+![nmap](../../Assets/walktrhough-assets/jeeves/nmap.png)
 
 As I went through the prot `80` and port `50000` i did not find anyting interesting so I starting doing some directory busting by ruing `feroxbuster` on the port `50000`.
 ## Feroxbuster
@@ -28,7 +28,15 @@ println cmd.execute().txt
 ```
 ![](../../Assets/walktrhough-assets/jeeves/2025-02-09_3.png)
 
-I search for oneline shell and found the github of `nishang` and i cloned the entired repo to my /opt and copied the Invoke-PowershellTcp.ps1 copy the highlighted line down to the bottom of the script and change the ip and port.
+<!-- I search for oneline shell and found the github of `nishang` and i cloned the entired repo to my /opt and copied the Invoke-PowershellTcp.ps1 copy the highlighted line down to the bottom of the script and change the ip and port. -->
+
+While searching for a one-liner shell, I came across the Nishang repository on GitHub. I cloned the entire repository to /opt using:
+
+```bash
+git clone https://github.com/samratashok/nishang.git /opt/nishang
+```
+Next, I copied the Invoke-PowerShellTcp.ps1 script and modified it by extracting the relevant lines from the highlighted section down to the end of the script. I then updated the IP address and port to match my listener configuration.
+
 ```bash hl_lines="18 127"
 function Invoke-PowerShellTcp 
 { 
@@ -228,9 +236,15 @@ cp C:\Users\kohsuke\Documents\CEH.kdbx .
 ```
 As you can see I copied the file to the attacker machine successfully.
 ![](../../Assets/walktrhough-assets/jeeves/2025-02-09_8.png)
-After running the `keepass2john` on the CEH.kdbx i cracked the hash by using ./hashcat   and password is `moonshine1` which I used to access the database with password by running the `keepassxc CEH.kdbx` and it will require the password wich is `moonshhine1` and login to get the `administrator` password `S1TjAtJHKsugh9oC4VZl`.
+
+After running `keepass2john` on **CEH.kdbx**, I extracted the hash and successfully cracked it using `hashcat`. The recovered password, `moonshine1`, was then used to access the KeePass database by running:
+```bash
+keepass2john CEH.kdbx
+```
+Upon entering the password moonshine1, I successfully logged in and retrieved the Administrator password: `S1TjAtJHKsugh9oC4VZl`.
 
 ![](../../Assets/walktrhough-assets/jeeves/2025-02-09_9.png)
+
 ## Pass The Hash
 I copied the passwords for `administrator` and the backup which the username is just a `?` and it looks like its an `NTLM HASH` and saved it to a file.
 
@@ -256,8 +270,9 @@ But it did not work so I tried PASS the NTLM Hash
 once pass the hash we get root access.
 
 ![](../../Assets/walktrhough-assets/jeeves/2025-02-09_10.png)
-But when I went to the Administrator desktop and there is hm.txt and thought that's it I will have the root flag but nope, i had to dig deeper as it says on there.
-with using the datastream hiding file inside the file found that there is root.txt file insdie the hm.txt but how do i access it. the `dir /r` will show the datastream file but not the root yet.
+Upon accessing the Administrator desktop, I discovered a file named **hm.txt** and initially assumed it contained the root flag. However, after opening it, I realized that was not the case. The file itself hinted that I needed to dig deeper.
+
+By analyzing alternate **data streams (ADS)**, I found that **hm.txt** contained a hidden **root.txt** file. Running `dir /r` revealed the presence of the data stream, but it did not immediately display the root flag. The next challenge was determining how to access the hidden content.
 ```bash
 dir /r
 ```

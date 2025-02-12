@@ -103,6 +103,8 @@ nav:
           - HTB/easy/broadlight.md
           - HTB/easy/busqueda.md
           - HTB/easy/sense.md
+          - HTB/easy/postman.md
+
       - Meduim:
           - HTB/meduim/active.md
           - HTB/meduim/jeeves.md
