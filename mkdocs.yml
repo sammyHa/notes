@@ -104,6 +104,10 @@ nav:
           - HTB/easy/busqueda.md
           - HTB/easy/sense.md
           - HTB/easy/postman.md
+          - HTB/easy/legacy.md
+          - HTB/easy/Bashed.md
+          - HTB/easy/Beep.md
+          - HTB/easy/Buff.md
 
       - Meduim:
           - HTB/meduim/active.md
