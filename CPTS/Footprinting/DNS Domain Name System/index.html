@@ -1,0 +1,4154 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../SMTP%20Simple%20Mail%20Transfer%20Protocol/">
+      
+      
+        <link rel="next" href="../Domain%20Information/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>DNS - Pentesting Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../styles/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#references" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pentesting Notes" class="md-header__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pentesting Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DNS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="switch to light mdoe"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="switch to light mdoe" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pentesting Notes" class="md-nav__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pentesting Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Portfolio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CPTS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CPTS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Web%20Enumeration%20Overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Enumeration Overview
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Types%20of%20Shells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types of Shells
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Folder%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Folder Structure
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['In-Progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Public%20Exploits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Public Exploits
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Get%20OS%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get OS Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Way%20Forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Way Forward
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Starting%20Out/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Starting Out
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Common%20Pitfalls%20and%20Troubleshooting%20in%20VPN%20and%20SSH%20Connections/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Pitfalls and Troubleshooting in VPN and SSH Connections
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Transferring%20Files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Transfers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Transfers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Win%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Win File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Linux%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/file_transfer_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File transfer operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/transfer_files_wtih_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files with Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/miscellaneous_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miscellaneous file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/protected_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protected file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/catching_files_over_HTTPS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    catching files over HTTPS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/living_off_the_land/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Living off the land
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/evasion_detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evasion detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Shells and Payloads
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Shells and Payloads
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/understanding_shells_and_payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Understanding Shells and Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/CAT5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CAT5 Security's Engagement Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/anatomy_of_a_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Anatomy of a shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/bind_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bind shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/reverseshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reverseshell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Infiltrating-Unix-Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infiltrating Unix Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/SpawningInteractiveShells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpawningInteractiveShells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Laudanum%2C%20One%20Webshell%20to%20Rule%20Them%20All/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Laudanum, One Webshell to Rule Them All
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/skillAssessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    skillAssessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/DetectionAndPrevention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection &amp; Prevention Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Metasploit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Metasploit/Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/onesixtyone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    onesixtyone
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Braa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Braa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/WinRM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Shodan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shodan
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/xfreerdp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Xfreerdp
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Metasploit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nikto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nikto
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Rsync/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rsync
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/snmpwalk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    snmpwalk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Windows_Management_Instrumentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Management Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/vnStat/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    vnStat
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/DNSenum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNSenum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/OpenVAS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenVAS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/File%20Transfer%20tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Transfer tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/JtR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper (JtR) Comprehensive Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Certutil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certutil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/ssti/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Pentester's Guide to Server-Side Template Injection (SSTI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Powershell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Powershell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Nmap
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Firewall%20and%20IDS%20IPS%20Evasion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Firewall and IDS IPS Evasion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Service%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/nse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NSE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Cheatsheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Host%20and%20Port%20Scanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Host and Port Scanning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Saving%20the%20Result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Saving the Result
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap%20Host%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap Host Discovery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Attacking%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Attacking Network Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Info Gathering Web Edition
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Info Gathering Web Edition
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Info%20Gathering%20Web%20Edition/Penetration%20Testing%20Process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Penetration Testing Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Footprinting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Footprinting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SNMP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NFS%20Network%20File%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NFS Network File System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SMTP%20Simple%20Mail%20Transfer%20Protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMTP Simple Mail Transfer Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    DNS
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-default-configuration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Default Configuration - Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-of-namedconflocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose of named.conf.local
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-content-of-namedconflocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typical Content of named.conf.local
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Content
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dangerous-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dangerous Settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dangerous Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-vulnerable-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vulnerable Settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footprinting-the-dns-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footprinting the DNS Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Footprinting the DNS Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dig-ns-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      DIG - NS Query
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-transfer-axfr-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zone Transfer (AXFR) Notes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Zone Transfer (AXFR) Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-components-and-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Components and Terms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dig-axfr-zone-transfer-internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      DIG - AXFR Zone Transfer - Internal
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brute-forcing-dns-a-records-with-a-hostname-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brute-Forcing DNS A Records with a Hostname List
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Brute-Forcing DNS A Records with a Hostname List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-dns-brute-forcing-with-a-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for DNS Brute-Forcing with A Records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-bash-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sample Bash Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explanation-of-the-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explanation of the Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usefulness-for-penetration-testers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usefulness for Penetration Testers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#or" class="md-nav__link">
+    <span class="md-ellipsis">
+      OR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-differences-from-the-original-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary of Differences from the Original Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      In Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Domain%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Cloud%20Resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FTP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MYSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MYSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Windows%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Enumeration%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Methodology
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MSSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Enumeration%20Principles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Principles
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IMAP POP3.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Linux%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Oracle%20-%20TNS%20Transparent%20Network%20Substate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle - TNS Transparent Network Substate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SMB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IPMI Intelligent Platform Management Interface.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Skill Assessment
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Skill Assessment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting%20Lab%20-%20Hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting_Lab_Meduim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab Meduim
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting%20Lab%20-%20Easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Easy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vulnerability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            Vulnerability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerabilities%20and%20Exposures%20%28CVE%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerabilities and Exposures (CVE)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerability%20Scoring%20System%20%28CVSS%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerability Scoring System (CVSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Assessment%20Standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Getting%20Started%20with%20Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Vulnerability%20Assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnerability Assessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTB
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Easy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Easy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Blunder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blunder Walkthrough
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/broadlight/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Broadlight
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/busqueda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Busqueda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/sense/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sense
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/postman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Postman
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/legacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Legacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Bashed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bashed
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Beep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beep
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Buff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Meduim
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Meduim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/active/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/jeeves/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jeeves
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/hard/hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-default-configuration-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Default Configuration - Notes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-of-namedconflocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose of named.conf.local
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-content-of-namedconflocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Typical Content of named.conf.local
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Content
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dangerous-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dangerous Settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dangerous Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-vulnerable-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Vulnerable Settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footprinting-the-dns-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footprinting the DNS Service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Footprinting the DNS Service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dig-ns-query" class="md-nav__link">
+    <span class="md-ellipsis">
+      DIG - NS Query
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-transfer-axfr-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zone Transfer (AXFR) Notes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Zone Transfer (AXFR) Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-components-and-terms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Components and Terms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dig-axfr-zone-transfer-internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      DIG - AXFR Zone Transfer - Internal
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brute-forcing-dns-a-records-with-a-hostname-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brute-Forcing DNS A Records with a Hostname List
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Brute-Forcing DNS A Records with a Hostname List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-dns-brute-forcing-with-a-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for DNS Brute-Forcing with A Records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sample-bash-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sample Bash Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explanation-of-the-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explanation of the Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usefulness-for-penetration-testers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usefulness for Penetration Testers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#or" class="md-nav__link">
+    <span class="md-ellipsis">
+      OR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-differences-from-the-original-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary of Differences from the Original Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      In Summary
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<blockquote>
+<p>[!tip]- Tips
+Write tips here</p>
+</blockquote>
+<h3 id="references">References</h3>
+<ul>
+<li>Layered Enumeration Framework Guide</li>
+<li>Comprehensive OSCP Enumeration Strategies</li>
+</ul>
+<p><strong>Overview</strong><br />
+DNS (Domain Name System) is a decentralized system that translates domain names (e.g., <code>www.hackthebox.com</code>) into IP addresses, allowing users to access web servers easily. Rather than a single central database, DNS data is stored across thousands of distributed servers worldwide. It is like a library of phone books, where each server holds a piece of information for global accessibility.</p>
+<hr />
+<p><strong>Key DNS Server Types</strong></p>
+<ol>
+<li>
+<p><strong>DNS Root Server</strong></p>
+<ul>
+<li><em>Role</em>: Directs requests for top-level domains (TLDs, e.g., <code>.com</code>, <code>.org</code>).</li>
+<li><em>Description</em>: Acts as a final referral point in the DNS query chain when other servers don’t respond. ICANN manages 13 root servers worldwide.</li>
+<li>
+<p><strong>Authoritative Name Server</strong></p>
+</li>
+<li>
+<p><em>Role</em>: Holds definitive records for a specific DNS zone.</p>
+</li>
+<li><em>Description</em>: Provides answers directly from its designated domain’s database. If it can’t respond, the request escalates to the root server.</li>
+<li>
+<p><strong>Non-Authoritative Name Server</strong></p>
+</li>
+<li>
+<p><em>Role</em>: Retrieves information from other DNS servers.</p>
+</li>
+<li><em>Description</em>: Uses recursive or iterative queries to collect DNS zone data without direct responsibility for the zone.</li>
+<li>
+<p><strong>Caching DNS Server</strong></p>
+</li>
+<li>
+<p><em>Role</em>: Temporarily stores DNS query results.</p>
+</li>
+<li><em>Description</em>: Speeds up response times by caching information from authoritative servers for a set duration defined by the authoritative server.</li>
+<li>
+<p><strong>Forwarding Server</strong></p>
+</li>
+<li>
+<p><em>Role</em>: Forwards DNS queries to other servers.</p>
+</li>
+<li><em>Description</em>: Acts as an intermediary, forwarding DNS requests rather than resolving them directly.</li>
+<li>
+<p><strong>Resolver</strong></p>
+</li>
+<li>
+<p><em>Role</em>: Locally performs name resolution on devices or routers.</p>
+</li>
+<li><em>Description</em>: Resolves domain names to IP addresses within a device’s or network’s local system.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<p><strong>Security Considerations</strong></p>
+<ul>
+<li><strong>Encryption Methods</strong>: DNS traffic is typically unencrypted, creating privacy risks as local networks and ISPs can monitor DNS queries. Common encryption solutions include:<ul>
+<li><strong>DNS over TLS (DoT)</strong></li>
+<li><strong>DNS over HTTPS (DoH)</strong></li>
+<li><strong>DNSCrypt</strong>: Encrypts DNS traffic between devices and name servers.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>Additional DNS Functions</strong></p>
+<ul>
+<li>Besides IP translation, DNS can provide other data about domain-associated services, such as:<ul>
+<li><strong>Mail Server Information</strong>: Identifies email servers for the domain.</li>
+<li><strong>Name Server Information</strong>: Lists servers responsible for the domain.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>Summary Flow of a DNS Query</strong></p>
+<ol>
+<li><strong>User Request</strong> → <strong>Recursive Query</strong> → <strong>Root Server (if needed)</strong> → <strong>TLD Server</strong> → <strong>Authoritative Name Server</strong><br />
+    The system resolves domain names to IP addresses, allowing seamless web access.
+![[Pasted image 20241107235120.png]]</li>
+</ol>
+<p>Different <code>DNS records</code> are used for the DNS queries, which all have various tasks. Moreover, separate entries exist for different functions since we can set up mail servers and other servers for a domain.</p>
+<table>
+<thead>
+<tr>
+<th><strong>DNS Record</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>A</code></td>
+<td>Returns an IPv4 address of the requested domain as a result.</td>
+</tr>
+<tr>
+<td><code>AAAA</code></td>
+<td>Returns an IPv6 address of the requested domain.</td>
+</tr>
+<tr>
+<td><code>MX</code></td>
+<td>Returns the responsible mail servers as a result.</td>
+</tr>
+<tr>
+<td><code>NS</code></td>
+<td>Returns the DNS servers (nameservers) of the domain.</td>
+</tr>
+<tr>
+<td><code>TXT</code></td>
+<td>This record can contain various information. The all-rounder can be used, e.g., to validate the Google Search Console or validate SSL certificates. In addition, SPF and DMARC entries are set to validate mail traffic and protect it from spam.</td>
+</tr>
+<tr>
+<td><code>CNAME</code></td>
+<td>This record serves as an alias for another domain name. If you want the domain www.hackthebox.eu to point to the same IP as hackthebox.eu, you would create an A record for hackthebox.eu and a CNAME record for www.hackthebox.eu.</td>
+</tr>
+<tr>
+<td><code>PTR</code></td>
+<td>The PTR record works the other way around (reverse lookup). It converts IP addresses into valid domain names.</td>
+</tr>
+<tr>
+<td><code>SOA</code></td>
+<td>Provides information about the corresponding DNS zone and email address of the administrative contact.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>SOA</code> record is located in a domain's zone file and specifies who is responsible for the operation of the domain and how DNS information for the domain is managed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>dig<span class="w"> </span>soa<span class="w"> </span>www.inlanefreight.com
+</code></pre></div>
+<h3 id="dns-default-configuration-notes">DNS Default Configuration - Notes</h3>
+<p><strong>Types of DNS Configuration Files</strong></p>
+<ol>
+<li>
+<p><strong>Local DNS Configuration Files</strong></p>
+<ul>
+<li>Basic settings and options for the DNS server.</li>
+<li>
+<p><strong>Zone Files</strong></p>
+</li>
+<li>
+<p>Define specific domains and their DNS records.</p>
+</li>
+<li>
+<p><strong>Reverse Name Resolution Files</strong></p>
+</li>
+<li>
+<p>Used for mapping IP addresses back to domain names.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>Common DNS Server (Bind9 on Linux)</strong></p>
+<ul>
+<li><strong>Bind9</strong> is widely used for DNS on Linux distributions.</li>
+<li>Main configuration file: <code>named.conf</code></li>
+</ul>
+<p><strong>Key Configuration Files for Bind9</strong></p>
+<ol>
+<li><code>named.conf.local</code> - Holds local domain-specific configurations.</li>
+<li><code>named.conf.options</code> - Contains global settings that apply to all zones.</li>
+<li><code>named.conf.log</code> - Manages logging settings for the DNS server.</li>
+</ol>
+<p><strong>Configuration File Structure</strong></p>
+<ul>
+<li><code>named.conf</code> has two main sections:<ul>
+<li><strong>Options Section</strong>: Contains <strong>global settings</strong> affecting the entire server.</li>
+<li><strong>Zone Entries Section</strong>: Defines settings for individual <strong>zones/domains</strong>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Types of Options in <code>named.conf</code></strong></p>
+<ul>
+<li><strong>Global Options</strong>: Apply server-wide, across all zones.</li>
+<li><strong>Zone Options</strong>: Specific to individual zones; override global options if both are set.</li>
+</ul>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Unspecified options use <strong>default values</strong>.</li>
+<li><strong>Zone-specific options</strong> take <strong>priority</strong> over global options when both are present.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cat<span class="w"> </span>/etc/bind/named.conf.local
+</code></pre></div>
+![[Pasted image 20241108094650.png]]</li>
+</ul>
+<h3 id="purpose-of-namedconflocal">Purpose of <code>named.conf.local</code></h3>
+<ul>
+<li><strong>Defines Local Zones</strong>: This file tells the DNS server which <strong>domains</strong> (zones) it is responsible for on the local network.</li>
+<li><strong>Sets Up Forward and Reverse Zones</strong>: It often contains entries for <strong>forward zones</strong> (mapping domain names to IP addresses) and <strong>reverse zones</strong> (mapping IP addresses back to domain names).</li>
+</ul>
+<h3 id="typical-content-of-namedconflocal">Typical Content of <code>named.conf.local</code></h3>
+<p>In this file, you’ll usually find:</p>
+<ul>
+<li><strong>Zone Definitions</strong>: Each zone definition specifies details about a domain, including its <strong>file path</strong> for the zone data (like <code>zone "example.com" { ... }</code>).</li>
+<li><strong>Forward Zones</strong>: Defines domains for which the server will provide name-to-IP mappings.</li>
+<li><strong>Reverse Zones</strong>: Defines IP address ranges for which the server will provide IP-to-name mappings.</li>
+</ul>
+<h3 id="example-content">Example Content</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>zone<span class="w"> </span><span class="s2">&quot;example.com&quot;</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nb">type</span><span class="w"> </span>master<span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span>file<span class="w"> </span><span class="s2">&quot;/etc/bind/zones/db.example.com&quot;</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="o">}</span><span class="p">;</span><span class="w">  </span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>zone<span class="w"> </span><span class="s2">&quot;1.168.192.in-addr.arpa&quot;</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nb">type</span><span class="w"> </span>master<span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span>file<span class="w"> </span><span class="s2">&quot;/etc/bind/zones/db.192.168.1&quot;</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="o">}</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li><strong>Forward Zone (<code>example.com</code>)</strong>: Maps names (like <code>www.example.com</code>) to IPs.</li>
+<li><strong>Reverse Zone (<code>1.168.192.in-addr.arpa</code>)</strong>: Maps IPs (like <code>192.168.1.1</code>) back to domain names.</li>
+</ul>
+<h3 id="summary">Summary</h3>
+<p><code>named.conf.local</code> is where you tell the Bind9 DNS server about <strong>specific domains it should manage</strong> and where to find each domain’s data file. It helps the server resolve <strong>local domain names</strong> and can include both <strong>forward and reverse DNS entries</strong>.
+https://wiki.debian.org/Bind9</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>bind9
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#Zone File</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>cat<span class="w"> </span>/etc/bind/db.domain.com
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Reverse name resolution zone file</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>cat<span class="w"> </span>/etc/bind/db.&lt;IP&gt;
+</code></pre></div>
+<p>![[Pasted image 20241108094909.png]]</p>
+<h3 id="dangerous-settings">Dangerous Settings</h3>
+<p>DNS servers are prone to vulnerabilities if not properly configured, as certain settings can unintentionally expose the server to attacks. Administrators may prioritize functionality over security, leading to misconfiguration. </p>
+<h4 id="key-vulnerable-settings">Key Vulnerable Settings</h4>
+<ol>
+<li>
+<p><strong>allow-query</strong></p>
+<ul>
+<li>Specifies which hosts can send requests to the DNS server.</li>
+<li>Misconfiguration can allow unauthorized users to access DNS data.</li>
+</ul>
+</li>
+<li>
+<p><strong>allow-recursion</strong></p>
+<ul>
+<li>Defines which hosts can make recursive queries to the DNS server.</li>
+<li>If too permissive, it allows attackers to use the server to amplify DDoS attacks.</li>
+</ul>
+</li>
+<li>
+<p><strong>allow-transfer</strong></p>
+<ul>
+<li>Specifies which hosts can perform zone transfers from the DNS server.</li>
+<li>Misconfiguration allows attackers to retrieve zone data, exposing internal network information.</li>
+</ul>
+</li>
+<li>
+<p><strong>zone-statistics</strong></p>
+<ul>
+<li>Collects and reports statistical data about DNS zones.</li>
+<li>Data collection can be useful for administrators but might expose sensitive information if accessed by unauthorized parties.</li>
+</ul>
+</li>
+</ol>
+<h3 id="footprinting-the-dns-service">Footprinting the DNS Service</h3>
+<ul>
+<li><strong>Purpose</strong>: Footprinting helps attackers gather information about the DNS infrastructure.</li>
+<li><strong>Techniques</strong>:<ul>
+<li><strong>NS Record Query</strong>: Use <code>NS</code> records to identify other name servers associated with the DNS server.</li>
+<li><strong>@ Character in Queries</strong>: Specify a DNS server for querying records, which can uncover differently configured servers, providing varied access to data across zones.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Summary</strong>: Misconfigured DNS settings like <code>allow-query</code>, <code>allow-recursion</code>, and <code>allow-transfer</code> create vulnerabilities. Footprinting techniques help attackers gather data on DNS servers, identifying possible weak points for further exploitation.</p>
+</blockquote>
+<h4 id="dig-ns-query">DIG - NS Query</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>dig<span class="w"> </span>ns<span class="w"> </span>inlanefreight.htb<span class="w"> </span>@&lt;ip&gt;
+</code></pre></div>
+<p>Sometimes it possible to query a DNS server's version using a class <code>CHAOS</code> query and type <code>txt</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dig<span class="w"> </span>CH<span class="w"> </span>TXT<span class="w"> </span>version.bind<span class="w"> </span>&lt;ip&gt;
+</code></pre></div></p>
+<p>We can use <code>any</code> option to view all available records. not all entries from the zone will be shown.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dig<span class="w"> </span>any<span class="w"> </span>inlanefreight.htb<span class="w"> </span>@&lt;ip&gt;
+</code></pre></div></p>
+<h3 id="zone-transfer-axfr-notes">Zone Transfer (AXFR) Notes</h3>
+<p>Zone transfers are a critical process in DNS management, ensuring consistent data across DNS servers. They typically occur over <strong>TCP port 53</strong> and are formally known as <strong>Asynchronous Full Transfer Zone (AXFR)</strong>.</p>
+<h4 id="key-components-and-terms">Key Components and Terms</h4>
+<ol>
+<li>
+<p><strong>Purpose of Zone Transfer</strong>:</p>
+<ul>
+<li>Ensures DNS consistency across multiple servers.</li>
+<li>Reduces the risk of service disruptions by having the same DNS data available on multiple servers.</li>
+<li>
+<p><strong>Types of DNS Servers</strong>:</p>
+</li>
+<li>
+<p><strong>Primary Name Server (Master)</strong>:</p>
+<ul>
+<li>Holds the original zone data.</li>
+<li>Manages all updates to DNS entries (additions, modifications, deletions).</li>
+</ul>
+</li>
+<li><strong>Secondary Name Server (Slave)</strong>:<ul>
+<li>Acts as a backup, obtaining data from the master to enhance reliability.</li>
+<li>Helps in load balancing and protects the primary server from potential attacks.</li>
+</ul>
+</li>
+<li><strong>TLD Requirement</strong>: For some Top-Level Domains, DNS zones must be accessible from at least two servers for redundancy.</li>
+<li>
+<p><strong>How Zone Transfer Works</strong>:</p>
+</li>
+<li>
+<p><strong>SOA Record (Start of Authority)</strong>:</p>
+<ul>
+<li>The SOA record includes a <strong>serial number</strong> that tracks updates.</li>
+</ul>
+</li>
+<li><strong>Serial Number Comparison</strong>:<ul>
+<li>The slave server periodically checks the master’s SOA serial number to ensure it has the latest data.</li>
+<li>If the master’s serial number is higher, the slave updates its records accordingly.</li>
+</ul>
+</li>
+<li>
+<p><strong>Security with rndc-key</strong>:</p>
+</li>
+<li>
+<p><strong>rndc-key</strong> is used to secure communication between master and slave, ensuring that only trusted servers participate in zone transfers.</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>Summary</strong>: Zone transfers allow primary and secondary DNS servers to synchronize, maintaining data consistency and network reliability. The SOA record's serial number helps detect updates, while the <strong>rndc-key</strong> secures the transfer process.</p>
+</blockquote>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dig<span class="w"> </span>axfr<span class="w"> </span>inlanefreight.htb<span class="w"> </span>@&lt;ip&gt;
+</code></pre></div>
+![[Pasted image 20241108101325.png]]</p>
+<p>If the admin used a subnet for the <code>allow-transfer</code> option for testing purposes or as a workaround solution or set it to <code>any</code> everyone would query the entire zone file at the DNS server.</p>
+<h4 id="dig-axfr-zone-transfer-internal">DIG - AXFR Zone Transfer - Internal</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dig<span class="w"> </span>axfr<span class="w"> </span>internal.inlanefreight.htb<span class="w"> </span>@10.129.14.128
+</code></pre></div>
+<h3 id="brute-forcing-dns-a-records-with-a-hostname-list">Brute-Forcing DNS A Records with a Hostname List</h3>
+<p>A brute-force attack on DNS A records helps identify individual hosts within a domain by trying out various hostnames. Here’s a breakdown of how this works:</p>
+<h4 id="steps-for-dns-brute-forcing-with-a-records">Steps for DNS Brute-Forcing with A Records</h4>
+<ol>
+<li>
+<p><strong>Hostname List</strong>:</p>
+<ul>
+<li>To perform a brute-force attack, you need a list of potential subdomains or hostnames, such as <code>www</code>, <code>mail</code>, <code>ftp</code>, etc.</li>
+<li><strong>SecLists</strong>: This tool offers pre-made lists of common hostnames which can be used for such purposes.</li>
+<li>
+<p><strong>For-Loop in Bash</strong>:</p>
+</li>
+<li>
+<p>Using a simple loop in Bash, you can iterate over each hostname in the list and perform a DNS query.</p>
+</li>
+<li>This can be done with commands like <code>dig</code> or <code>host</code> to check if the hostname has an associated A record (IP address).</li>
+</ul>
+</li>
+</ol>
+<h4 id="sample-bash-script">Sample Bash Script</h4>
+<p>Here’s an example of a script that uses <code>dig</code> to query each hostname in the list against a specified DNS server:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Specify the target domain and DNS server</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nv">domain</span><span class="o">=</span><span class="s2">&quot;example.com&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nv">dns_server</span><span class="o">=</span><span class="s2">&quot;8.8.8.8&quot;</span><span class="w">  </span><span class="c1"># Optional, specify DNS server or remove for default</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Loop through the hostname list (from SecLists or other source)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">for</span><span class="w"> </span>hostname<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>hostnames.txt<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="c1"># Query the DNS server for each hostname</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>dig<span class="w"> </span>@<span class="nv">$dns_server</span><span class="w"> </span>+short<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$hostname</span><span class="s2">.</span><span class="nv">$domain</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="c1"># Check if there was an A record returned</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$hostname</span><span class="s2">.</span><span class="nv">$domain</span><span class="s2"> has IP: </span><span class="nv">$result</span><span class="s2">&quot;</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="k">done</span>
+</code></pre></div></p>
+<h4 id="explanation-of-the-script">Explanation of the Script</h4>
+<ul>
+<li><strong>hostname</strong>: The loop reads each hostname from <code>hostnames.txt</code>.</li>
+<li><strong>dig command</strong>: Sends a DNS query for each hostname combined with the domain (e.g., <code>ftp.example.com</code>) and checks for an IP address (A record).</li>
+<li><strong>Output</strong>: If an A record is found, it prints the hostname and its IP address.</li>
+</ul>
+<h4 id="usefulness-for-penetration-testers">Usefulness for Penetration Testers</h4>
+<ul>
+<li><strong>Discover Subdomains</strong>: Reveals hidden or internal hosts that might not be publicly known.</li>
+<li><strong>Attack Surface Expansion</strong>: Identifies additional points for reconnaissance or potential entry points within a target domain.</li>
+</ul>
+<h1 id="or">OR</h1>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">for</span><span class="w"> </span>sub<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>/opt/useful/seclists/Discovery/DNS/subdomains-top1million-110000.txt<span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span>dig<span class="w"> </span><span class="nv">$sub</span>.inlanefreight.htb<span class="w"> </span>@10.129.14.128<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;;\|SOA&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;/^\s*$/d&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="nv">$sub</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>subdomains.txt
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">done</span>
+</code></pre></div>
+<ul>
+<li>
+<p><strong>File of Subdomains</strong>: <code>cat /opt/useful/seclists/Discovery/DNS/subdomains-top1million-110000.txt</code></p>
+<ul>
+<li>Reads a list of potential subdomains from a SecLists file. This list is used to test various subdomains against the DNS server.</li>
+<li>
+<p><strong>Loop through Each Subdomain</strong>:</p>
+</li>
+<li>
+<p><code>for sub in $(cat ...); do ... done</code></p>
+</li>
+<li>For each <code>sub</code> (subdomain) in the list, the loop:<ul>
+<li>Executes <code>dig</code> to query for an A record of each subdomain (like <code>ftp.inlanefreight.htb</code>).</li>
+<li>Uses the DNS server at <code>10.129.14.128</code> for the query.</li>
+</ul>
+</li>
+<li>
+<p><strong>Filtering and Formatting</strong>:</p>
+</li>
+<li>
+<p><code>grep -v ';\|SOA'</code>: Excludes lines with semicolons (metadata) and SOA records from the <code>dig</code> output.</p>
+</li>
+<li><code>sed -r '/^\s*$/d'</code>: Removes any blank lines.</li>
+<li><code>grep $sub</code>: Filters for lines that contain the queried subdomain name to show only relevant results.</li>
+<li>
+<p><strong>Output to File</strong>:</p>
+</li>
+<li>
+<p><code>tee -a subdomains.txt</code>: Appends the final results to <code>subdomains.txt</code>, allowing you to keep a log of all resolved subdomains.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="summary-of-differences-from-the-original-script">Summary of Differences from the Original Script</h3>
+<ul>
+<li>This loop has additional filters (e.g., <code>grep</code> and <code>sed</code>) to make the output cleaner by removing extraneous information and focusing on valid subdomains.</li>
+<li>The use of <code>tee -a</code> appends results to <code>subdomains.txt</code>, keeping a persistent record of found subdomains without needing to redirect output separately.</li>
+</ul>
+<h3 id="in-summary">In Summary</h3>
+<blockquote>
+<p>Both loops perform DNS queries on a list of potential subdomains, but this version includes extra filtering for cleaner output and saves results directly to a file. This is a useful addition for penetration testers, allowing for easier identification of valid subdomains in a target domain.</p>
+</blockquote>
+<p>Many different tools can be used for this and most of them work in the same way. one of these examples [[DNSenum]]</p>
+<p>https://github.com/realCheesyQuesadilla/HTBPenTest/blob/main/Footprinting</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotation", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

