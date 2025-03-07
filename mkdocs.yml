@@ -57,6 +57,7 @@ nav:
         - CPTS/Tools/Certutil.md
         - CPTS/Tools/ssti.md
         - CPTS/Tools/Powershell.md
+        - CPTS/Tools/BufferOverflow.md
     - Nmap:
         - CPTS/Nmap/Firewall and IDS IPS Evasion.md
         - CPTS/Nmap/Nmap.md
@@ -113,6 +114,8 @@ nav:
       - Meduim:
           - HTB/meduim/active.md
           - HTB/meduim/jeeves.md
+          - HTB/meduim/Bastared.md
+          - HTB/meduim/Cypher.md
 
       - Hard:
           - HTB/hard/hard.md

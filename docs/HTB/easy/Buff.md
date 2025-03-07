@@ -1,15 +1,5 @@
 # Buff
 
-# Following the PTES Framewrok.
-
-1. **Pre-Enagement Interaction**
-2. **Intelligence Gathering**
-3. **Threat Modeling**
-4. **Vulnerability Analysis**
-5. **Exploitation**
-6. **Post Exploitation**
-7. **Reporting**
-
 ### Nmap scan
 ![buff nmap](../../Assets/walktrhough-assets/Buff/2025-02-20_1.png)
 Nmap reveals that the port '8080', visiting the page will load a exercise webpage. 
@@ -24,6 +14,7 @@ Let's run Gobuster.
 ```bash
 gobuster dir -w words.txt -u http://<ip>
 ```
+![buff nmap](../../Assets/walktrhough-assets/Buff/2025-02-22_6.png)
 
 ## Metasploit
 Searching for `Gym Management` on `searchsploit` will give few results.
