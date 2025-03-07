@@ -32,5 +32,5 @@ META-INF/maven/com.cypher.neo4j/custom-apoc-extension/pom.properties
 ```
 
 ## Testing feew things, Looks like the site is vulnerable to cross site scripting
-As I entered <script>alert('alert')</script> I get the dialog box back which means this site is vulnerable to crossite scripting. let's dig deeper.
+As I entered `<script>alert('alert')</script>` I get the dialog box back which means this site is vulnerable to crossite scripting. let's dig deeper.
 ![cypher](../../Assets/walktrhough-assets/Cypher/2025-03-02_2.png)
