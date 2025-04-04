@@ -1,6 +1,18 @@
 site_name: Pentesting Notes
 nav:
   - index.md
+  - OSCP:
+    - Notes:
+        - OSCP/Notes/Antivirus_Evasion.md
+    - Walkthroughs:
+        - Easy:
+            - OSCP/Walktroughs/Easy/first.md
+        - Meduim:
+            - OSCP/Walktroughs/Easy/first.md
+        - Hard:
+            - OSCP/Walktroughs/Easy/first.md
+        - Brainfuck:
+            - OSCP/Walktroughs/Easy/first.md
   - CPTS:
     - Getting Started:
         - CPTS/Getting Started/Web Enumeration Overview.md
@@ -116,9 +128,11 @@ nav:
           - HTB/meduim/jeeves.md
           - HTB/meduim/Bastared.md
           - HTB/meduim/Cypher.md
+          - HTB/meduim/TheFrizz.md
 
       - Hard:
           - HTB/hard/hard.md
+  
 extra_css:
   - styles/custom.css
   
